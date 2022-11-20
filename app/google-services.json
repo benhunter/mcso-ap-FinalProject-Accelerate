@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "291363684534",
+    "project_id": "mcso-ap-finalproject",
+    "storage_bucket": "mcso-ap-finalproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291363684534:android:ca740ccc7e05b0b1fd2617",
+        "android_client_info": {
+          "package_name": "me.benhunter.accelerate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291363684534-e7i1f8rhuv232qqn5ala79m40o89b22i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.benhunter.accelerate",
+            "certificate_hash": "dbed8a061b655e6b85a1fe7aa53340bf11dff05f"
+          }
+        },
+        {
+          "client_id": "291363684534-pm7be19fn4vahn5bf0rridskht5nlgje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsSZzx5uFqCDHnvqa4yAlvA_1dmOaLldo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291363684534-pm7be19fn4vahn5bf0rridskht5nlgje.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

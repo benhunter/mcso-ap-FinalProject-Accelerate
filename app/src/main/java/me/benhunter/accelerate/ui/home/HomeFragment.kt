@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,6 +20,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val homeViewModel: HomeViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,8 @@ class HomeFragment : Fragment() {
 
         Log.d(javaClass.simpleName, "board ${homeViewModel.board}")
         boardAdapter.submitList(homeViewModel.board)
+
+        Log.d(javaClass.simpleName, "auth ${mainViewModel.updateUser()}")
     }
 
     override fun onDestroyView() {
