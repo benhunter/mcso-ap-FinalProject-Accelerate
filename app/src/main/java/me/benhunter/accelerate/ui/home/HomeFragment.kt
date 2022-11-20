@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import me.benhunter.accelerate.BoardList
 import me.benhunter.accelerate.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,13 +18,13 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val homeViewModel: HomeViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -40,20 +39,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.boardRecyclerView.layoutManager =
-            LinearLayoutManager(binding.boardRecyclerView.context)
-
-        binding.boardRecyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-
-        val boardAdapter = BoardAdapter()
+        val boardAdapter = BoardAdapter(layoutInflater)
         binding.boardRecyclerView.adapter = boardAdapter
 
-        val categories = List(5) {
-            BoardList("category $it")
-        }
-        Log.d(javaClass.simpleName, "categories $categories")
-        boardAdapter.submitList(categories)
-
+        Log.d(javaClass.simpleName, "board ${homeViewModel.board}")
+        boardAdapter.submitList(homeViewModel.board)
     }
 
     override fun onDestroyView() {

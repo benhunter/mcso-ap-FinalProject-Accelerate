@@ -1,5 +1,6 @@
 package me.benhunter.accelerate
 
-class BoardList(
+class TaskList(
     val name: String,
+    val tasks: List<Task>,
 )
