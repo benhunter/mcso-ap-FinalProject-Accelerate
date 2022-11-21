@@ -34,8 +34,8 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.ViewHolder>(Diff()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val taskBinding = TaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
+        // TODO remove
 //        taskBinding.taskLinearLayout.minimumWidth = parent.width
-
 //        val layoutParams = LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         return ViewHolder(taskBinding)
@@ -43,7 +43,6 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.ViewHolder>(Diff()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = getItem(position)
-
         holder.taskBinding.taskTv.text = task.name
     }
 }

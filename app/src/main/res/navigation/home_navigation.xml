@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_my_boards">
 
+<!--    TODO remove-->
     <!--    <fragment-->
     <!--        android:id="@+id/nav_login"-->
     <!--        android:name="me.benhunter.accelerate.ui.login.LoginFragment"-->
@@ -17,10 +18,10 @@
     <!--    </fragment>-->
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="me.benhunter.accelerate.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_my_boards"
+        android:name="me.benhunter.accelerate.ui.home.MyBoardsFragment"
+        android:label="@string/menu_my_boards"
+        tools:layout="@layout/fragment_board" />
 
     <fragment
         android:id="@+id/nav_logout"

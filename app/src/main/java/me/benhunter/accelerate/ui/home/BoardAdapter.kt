@@ -14,6 +14,7 @@ import me.benhunter.accelerate.model.Category
 // Board holds a List of TaskList. TaskList holds a List of Tasks.
 class BoardAdapter(private val layoutInflater: LayoutInflater) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {
+
     inner class ViewHolder(val categoryBinding: CategoryBinding) :
         RecyclerView.ViewHolder(categoryBinding.root) {
         init {
@@ -44,7 +45,10 @@ class BoardAdapter(private val layoutInflater: LayoutInflater) :
         )
         val taskListLayoutWidth = (parent.width * 0.8).toInt()
         categoryBinding.root.layoutParams =
-            LinearLayoutCompat.LayoutParams(taskListLayoutWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
+            LinearLayoutCompat.LayoutParams(
+                taskListLayoutWidth,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
 //        taskListBinding.root.setPadding(100)
 
 //        val taskListView = layoutInflater.inflate(R.layout.task_list, parent, false)

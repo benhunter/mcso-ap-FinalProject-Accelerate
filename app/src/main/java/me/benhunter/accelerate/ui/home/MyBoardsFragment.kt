@@ -11,17 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import edu.utap.photolist.AuthInit
 import me.benhunter.accelerate.MainViewModel
-import me.benhunter.accelerate.databinding.FragmentHomeBinding
+import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
+import me.benhunter.accelerate.ui.board.MyBoardsAdapter
 
-class HomeFragment : Fragment() {
+class MyBoardsFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentMyBoardsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -31,7 +32,7 @@ class HomeFragment : Fragment() {
     ): View {
 
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentMyBoardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
 //        val textView: TextView = binding.textHome
@@ -49,11 +50,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val boardAdapter = BoardAdapter(layoutInflater)
-        binding.boardRecyclerView.adapter = boardAdapter
+        val boardAdapter = MyBoardsAdapter(layoutInflater)
+        binding.myBoardsRecyclerView.adapter = boardAdapter
 
-        Log.d(javaClass.simpleName, "board ${homeViewModel.board}")
-        boardAdapter.submitList(homeViewModel.board)
+        Log.d(javaClass.simpleName, "board ${myBoardsViewModel.board}")
+        boardAdapter.submitList(myBoardsViewModel.boards)
 
         Log.d(javaClass.simpleName, "auth ${mainViewModel.getUser()}")
     }

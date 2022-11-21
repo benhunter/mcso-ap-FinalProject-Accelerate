@@ -7,7 +7,7 @@ import me.benhunter.accelerate.model.Board
 import me.benhunter.accelerate.model.Task
 import me.benhunter.accelerate.model.Category
 
-class HomeViewModel : ViewModel() {
+class MyBoardsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"
