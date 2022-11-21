@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.BoardBinding
 import me.benhunter.accelerate.model.Board
 
@@ -40,5 +41,12 @@ class MyBoardsAdapter(val layoutInflater: LayoutInflater) :
     override fun onBindViewHolder(holder: MyBoardsAdapter.ViewHolder, position: Int) {
         val board = getItem(position)
         holder.boardBinding.boardNameTv.text = board.name
+        holder.boardBinding.boardNameCard.setOnClickListener {
+            val text = "Clicked board ${board.name}"
+            Snackbar
+                .make(holder.itemView, text, Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+        }
     }
 }
