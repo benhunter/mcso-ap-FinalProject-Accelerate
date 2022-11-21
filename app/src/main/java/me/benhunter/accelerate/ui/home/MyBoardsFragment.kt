@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import edu.utap.photolist.AuthInit
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
@@ -50,7 +51,7 @@ class MyBoardsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val boardAdapter = MyBoardsAdapter(layoutInflater)
+        val boardAdapter = MyBoardsAdapter(layoutInflater, ::navToBoard)
         binding.myBoardsRecyclerView.adapter = boardAdapter
 
         Log.d(javaClass.simpleName, "board ${myBoardsViewModel.board}")
@@ -76,5 +77,10 @@ class MyBoardsFragment : Fragment() {
             // ...
             Log.d("MainActivity", "sign in failed ${result}")
         }
+    }
+
+    private fun navToBoard(board_id: String){
+        val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(board_id)
+        findNavController().navigate(action)
     }
 }

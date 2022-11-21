@@ -20,7 +20,18 @@
         android:id="@+id/nav_my_boards"
         android:name="me.benhunter.accelerate.ui.home.MyBoardsFragment"
         android:label="@string/menu_my_boards"
-        tools:layout="@layout/fragment_board" />
+        tools:layout="@layout/fragment_board">
+        <!--    TODO update animation?-->
+        <action
+            android:id="@+id/action_my_boards_to_board"
+            app:destination="@id/nav_board"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out">
+            <argument
+                android:name="board_id"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/nav_logout"
@@ -30,6 +41,11 @@
 
     <fragment
         android:id="@+id/nav_board"
-        tools:layout="@layout/board"
-        android:name="me.benhunter.accelerate.ui.board.BoardFragment" />
+        android:label="Board"
+        android:name="me.benhunter.accelerate.ui.board.BoardFragment"
+        tools:layout="@layout/board">
+        <argument
+            android:name="board_id"
+            app:argType="string" />
+    </fragment>
 </navigation>
