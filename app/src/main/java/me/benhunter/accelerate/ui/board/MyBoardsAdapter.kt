@@ -3,10 +3,13 @@ package me.benhunter.accelerate.ui.board
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import me.benhunter.accelerate.R
 import me.benhunter.accelerate.databinding.BoardBinding
 import me.benhunter.accelerate.model.Board
 
@@ -47,6 +50,7 @@ class MyBoardsAdapter(val layoutInflater: LayoutInflater) :
                 .make(holder.itemView, text, Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show()
+            holder.itemView.findNavController().navigate(R.id.nav_board)
         }
     }
 }
