@@ -7,10 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import edu.utap.photolist.AuthInit
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentHomeBinding

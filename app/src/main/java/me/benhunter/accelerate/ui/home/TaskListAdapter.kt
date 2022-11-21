@@ -1,13 +1,13 @@
-package me.benhunter.accelerate
+package me.benhunter.accelerate.ui.home
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import me.benhunter.accelerate.databinding.TaskBinding
+import me.benhunter.accelerate.model.Task
 
 class TaskListAdapter : ListAdapter<Task, TaskListAdapter.ViewHolder>(Diff()) {
 

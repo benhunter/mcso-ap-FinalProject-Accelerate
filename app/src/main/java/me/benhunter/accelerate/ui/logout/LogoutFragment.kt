@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.R
@@ -36,23 +37,25 @@ class LogoutFragment : Fragment() {
         binding.logoutNoButtton.setOnClickListener {
             findNavController().navigate(R.id.nav_home)
 
-            // TODO remove
-            val toastText = "No"
-            Toast
-                .makeText(context, toastText, Toast.LENGTH_LONG)
+            // Navigate first
+            val text = "You are still logged in as ${viewModel.getUser()?.email}"
+            Snackbar
+                .make(view, text, Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
                 .show()
         }
 
         binding.logoutYesButtton.setOnClickListener{
-
-            // TODO remove
-            val toastText = "Logging out ${viewModel.getUser()?.email}"
-            Toast
-                .makeText(context, toastText, Toast.LENGTH_LONG)
-                .show()
+            val text = "Logging out ${viewModel.getUser()?.email}"
 
             viewModel.signOut()
             findNavController().navigate(R.id.nav_home)
+
+            // Navigate first
+            Snackbar
+                .make(view, text, Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
         }
     }
 }
