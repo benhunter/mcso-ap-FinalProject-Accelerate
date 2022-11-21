@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import me.benhunter.accelerate.MainActivity
 import me.benhunter.accelerate.databinding.FragmentBoardBinding
+import me.benhunter.accelerate.ui.home.BoardAdapter
+import me.benhunter.accelerate.ui.home.MyBoardsViewModel
 
 class BoardFragment : Fragment() {
 
@@ -15,6 +18,8 @@ class BoardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: BoardFragmentArgs by navArgs()
+
+    private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -27,5 +32,10 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.fragmentBoardNameTv.text = args.boardId
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardId
+
+        val boardAdapter = BoardAdapter(layoutInflater)
+        binding.boardRecyclerView.adapter = boardAdapter
+        val board = myBoardsViewModel.getBoardById(args.boardId)
+        boardAdapter.submitList(board?.categories)
     }
 }

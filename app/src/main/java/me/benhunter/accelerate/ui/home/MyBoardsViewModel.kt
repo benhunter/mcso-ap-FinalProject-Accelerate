@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import me.benhunter.accelerate.model.Board
-import me.benhunter.accelerate.model.Task
 import me.benhunter.accelerate.model.Category
+import me.benhunter.accelerate.model.Task
 
 class MyBoardsViewModel : ViewModel() {
 
@@ -17,7 +17,7 @@ class MyBoardsViewModel : ViewModel() {
     val board = generateBoard() // TODO remove!
 
     // TODO use in My Boards Fragment!
-    val boards = List(4) {boardNumber ->
+    val boards = List(4) { boardNumber ->
         Board("Board $boardNumber", generateBoard())
     }
 
@@ -26,5 +26,9 @@ class MyBoardsViewModel : ViewModel() {
             val tasks = List(5) { taskNumber -> Task("task $taskNumber") }
             Category("category $categoryNumber", tasks)
         }
+    }
+
+    fun getBoardById(boardId: String): Board? {
+        return boards.find { it.name == boardId }
     }
 }

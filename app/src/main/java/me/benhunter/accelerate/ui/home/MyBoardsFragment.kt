@@ -34,7 +34,6 @@ class MyBoardsFragment : Fragment() {
 
 
         _binding = FragmentMyBoardsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
 //        val textView: TextView = binding.textHome
 //        homeViewModel.text.observe(viewLifecycleOwner) {
@@ -45,7 +44,7 @@ class MyBoardsFragment : Fragment() {
         // TODO do before other setup?
         AuthInit(mainViewModel, signInLauncher)
 
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
