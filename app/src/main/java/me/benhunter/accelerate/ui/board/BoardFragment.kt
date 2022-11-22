@@ -9,8 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import me.benhunter.accelerate.MainActivity
 import me.benhunter.accelerate.databinding.FragmentBoardBinding
-import me.benhunter.accelerate.ui.home.BoardAdapter
-import me.benhunter.accelerate.ui.home.MyBoardsViewModel
+import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 class BoardFragment : Fragment() {
 

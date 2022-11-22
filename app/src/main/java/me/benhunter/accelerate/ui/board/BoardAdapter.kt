@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.home
+package me.benhunter.accelerate.ui.board
 
 import android.util.Log
 import android.view.LayoutInflater
