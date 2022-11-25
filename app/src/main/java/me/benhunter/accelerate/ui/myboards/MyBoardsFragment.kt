@@ -35,6 +35,7 @@ class MyBoardsFragment : Fragment() {
 
         _binding = FragmentMyBoardsBinding.inflate(inflater, container, false)
 
+        // TODO remove
 //        val textView: TextView = binding.textHome
 //        homeViewModel.text.observe(viewLifecycleOwner) {
 //            textView.text = it
