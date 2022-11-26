@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentId
 // TODO implement board members (self + sharing)
 class Board(
     val name: String = "",
-    val categories: List<Category> = listOf(),
+    var categories: MutableList<Category> = listOf<Category>().toMutableList(), // TODO a list of Category IDs from Firestore?
     @DocumentId var firestoreId: String = "",
     var ownerName: String = "",
     var ownerUid: String = "",

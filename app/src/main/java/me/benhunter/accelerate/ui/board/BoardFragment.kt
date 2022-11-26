@@ -35,8 +35,15 @@ class BoardFragment : Fragment() {
 
         val boardAdapter = BoardAdapter(layoutInflater)
         binding.boardRecyclerView.adapter = boardAdapter
+
+        myBoardsViewModel.observeCurrentBoardCategories()
         val board = myBoardsViewModel.getBoardById(args.boardFirestoreId)
-        boardAdapter.submitList(board?.categories)
+
+        myBoardsViewModel.observeCurrentBoardCategories().observe(this.viewLifecycleOwner){
+            boardAdapter.submitList(it)
+        }
+
+//        boardAdapter.submitList()
 
         binding.createCategoryFab.setOnClickListener(::onClickCreateCategory)
     }

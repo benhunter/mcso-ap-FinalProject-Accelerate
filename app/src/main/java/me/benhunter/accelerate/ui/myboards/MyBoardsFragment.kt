@@ -44,14 +44,14 @@ class MyBoardsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val boardAdapter = MyBoardsAdapter(layoutInflater, ::navToBoard)
-        binding.myBoardsRecyclerView.adapter = boardAdapter
+        val myBoardsAdapter = MyBoardsAdapter(layoutInflater, ::navToBoard)
+        binding.myBoardsRecyclerView.adapter = myBoardsAdapter
 
         binding.createBoardFab.setOnClickListener(::onClickCreateBoard)
 
         myBoardsViewModel.observeMyBoards().observe(this.viewLifecycleOwner) {
             Log.d(TAG, "observeMyBoards")
-            boardAdapter.submitList(it)
+            myBoardsAdapter.submitList(it)
         }
 
         myBoardsViewModel.fetchMyBoards()

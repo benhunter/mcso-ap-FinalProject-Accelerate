@@ -13,12 +13,14 @@ import me.benhunter.accelerate.model.Task
 class MyBoardsViewModel : ViewModel() {
 
     private val TAG = javaClass.simpleName
-    private val collection = "myBoards"
+    private val myBoardsCollection = "myBoards"
+    private val categoryCollection = "categories"
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val myBoards = MutableLiveData<List<Board>>()
     private var currentBoard: Board? = null
+    private val currentCategories = MutableLiveData<List<Category>>()
 
     init {
         // Update the boards when user logs in.
@@ -33,7 +35,7 @@ class MyBoardsViewModel : ViewModel() {
 
     // TODO replace with myBoards from DB
     val boards = List(4) { boardNumber ->
-        Board("Board $boardNumber", generateBoard())
+        Board("Board $boardNumber", generateBoard().toMutableList())
     }
 
     private fun generateBoard(): List<Category> {
@@ -51,9 +53,9 @@ class MyBoardsViewModel : ViewModel() {
         // add board record to firebase DB
         Log.d(TAG, "createBoard")
 
-        val board = Board(name, listOf())
-        board.firestoreId = db.collection(collection).document().id // generate a new document ID
-        db.collection(collection).document(board.firestoreId).set(board)
+        val board = Board(name)
+        board.firestoreId = db.collection(myBoardsCollection).document().id // generate a new document ID
+        db.collection(myBoardsCollection).document(board.firestoreId).set(board)
 
         fetchMyBoards()
     }
@@ -61,10 +63,14 @@ class MyBoardsViewModel : ViewModel() {
     fun fetchMyBoards() {
         Log.d(TAG, "fetchMyBoards")
 
-        db.collection(collection).get().addOnSuccessListener { result ->
+        db.collection(myBoardsCollection).get().addOnSuccessListener { result ->
             Log.d(TAG, "db get().addOnSuccessListener")
             myBoards.postValue(result.mapNotNull { it.toObject(Board::class.java) })
         }
+    }
+
+    private fun updateBoard(board: Board) {
+        db.collection(myBoardsCollection).document(board.firestoreId).set(board)
     }
 
     fun observeMyBoards(): LiveData<List<Board>> {
@@ -72,11 +78,21 @@ class MyBoardsViewModel : ViewModel() {
         return myBoards
     }
 
-    fun createCategory(name: String) {
-        TODO("Not yet implemented")
+    fun setCurrentBoard(boardFirestoreId: String) {
+        currentBoard = myBoards.value?.filter { it.firestoreId == boardFirestoreId }?.get(0)
+        currentCategories.postValue(currentBoard?.categories)
     }
 
-    fun setCurrentBoard(boardFirestoreId: String) {
-        currentBoard = myBoards.value?.filter{ it.firestoreId == boardFirestoreId }?.get(0)
+    fun createCategory(name: String) {
+        currentBoard?.let {
+            val category = Category(name)
+            it.categories.add(category)
+            updateBoard(it)
+        }
     }
+
+    fun observeCurrentBoardCategories(): LiveData<List<Category>> {
+        return currentCategories
+    }
+
 }
