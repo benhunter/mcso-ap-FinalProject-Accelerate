@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import edu.utap.photolist.AuthInit
+import me.benhunter.accelerate.AuthInit
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
 import me.benhunter.accelerate.ui.board.MyBoardsAdapter
@@ -49,7 +49,7 @@ class MyBoardsFragment : Fragment() {
 
         binding.createBoardFab.setOnClickListener {
             Snackbar
-                .make(it, "MyBoardsFragment FAB", Snackbar.LENGTH_LONG)
+                .make(it, "MyBoardsFragment createBoard FAB", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show()
             myBoardsViewModel.createBoard()
@@ -80,7 +80,7 @@ class MyBoardsFragment : Fragment() {
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
-            Log.d(TAG, "sign in failed ${result}")
+            Log.d(TAG, "sign in failed $result")
         }
     }
 

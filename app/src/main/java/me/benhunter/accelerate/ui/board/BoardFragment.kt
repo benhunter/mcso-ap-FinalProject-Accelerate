@@ -22,7 +22,7 @@ class BoardFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentBoardBinding.inflate(inflater, container, false)
         return binding.root

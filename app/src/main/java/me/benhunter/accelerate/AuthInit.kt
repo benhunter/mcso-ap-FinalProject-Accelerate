@@ -1,11 +1,10 @@
-package edu.utap.photolist
+package me.benhunter.accelerate
 
 import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import me.benhunter.accelerate.MainViewModel
 
 //import com.google.firebase.auth.UserProfileChangeRequest
 

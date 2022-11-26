@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.myboards.MyBoardsFragment">
@@ -22,7 +20,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--    Noved FAB here from app_bar_main -->
+    <!--    Moved FAB here from app_bar_main -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_board_fab"
         android:layout_width="wrap_content"
@@ -33,6 +31,7 @@
         android:tooltipText="Create a Board"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_library_add_24" />
+        app:srcCompat="@drawable/ic_baseline_library_add_24"
+        android:contentDescription="@string/create_a_board" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

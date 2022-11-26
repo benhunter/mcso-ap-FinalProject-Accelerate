@@ -27,4 +27,14 @@ class Board(
 
         return true
     }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + categories.hashCode()
+        result = 31 * result + firestoreId.hashCode()
+        result = 31 * result + ownerName.hashCode()
+        result = 31 * result + ownerUid.hashCode()
+        result = 31 * result + uuid.hashCode()
+        return result
+    }
 }
