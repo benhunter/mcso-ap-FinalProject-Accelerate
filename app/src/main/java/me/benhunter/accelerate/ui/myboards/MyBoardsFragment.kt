@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import edu.utap.photolist.AuthInit
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
@@ -54,6 +55,13 @@ class MyBoardsFragment : Fragment() {
         val boardAdapter = MyBoardsAdapter(layoutInflater, ::navToBoard)
         binding.myBoardsRecyclerView.adapter = boardAdapter
 
+        binding.createBoardFab.setOnClickListener {
+            Snackbar
+                .make(it, "MyBoardsFragment FAB", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+        }
+
         Log.d(javaClass.simpleName, "board ${myBoardsViewModel.board}")
         boardAdapter.submitList(myBoardsViewModel.boards)
 
@@ -79,7 +87,7 @@ class MyBoardsFragment : Fragment() {
         }
     }
 
-    private fun navToBoard(board_id: String){
+    private fun navToBoard(board_id: String) {
         val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(board_id)
         findNavController().navigate(action)
     }

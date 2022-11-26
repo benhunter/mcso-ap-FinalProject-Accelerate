@@ -29,7 +29,8 @@ class BoardFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.fragmentBoardNameTv.text = args.boardId
+        // TODO remove
+//        binding.fragmentBoardNameTv.text = args.boardId
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardId
 
         val boardAdapter = BoardAdapter(layoutInflater)
