@@ -9,7 +9,7 @@ class Board(
     @DocumentId var firestoreId: String = "",
     var ownerName: String = "",
     var ownerUid: String = "",
-    var uuid: String = "",
+    var uuid: String = "", // TODO remove?
 ) {
 
     override fun equals(other: Any?): Boolean {

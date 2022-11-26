@@ -12,9 +12,11 @@ import me.benhunter.accelerate.model.Board
 
 class MyBoardsAdapter(
     val layoutInflater: LayoutInflater,
-    val navToBoard: (board_id: String) -> Unit
+    val navToBoard: (board_firestore_id: String, board_name: String) -> Unit
 ) :
     ListAdapter<Board, MyBoardsAdapter.ViewHolder>(Diff()) {
+
+    private val TAG = javaClass.simpleName
 
     inner class ViewHolder(val boardBinding: BoardBinding) :
         RecyclerView.ViewHolder(boardBinding.root) {
@@ -45,13 +47,15 @@ class MyBoardsAdapter(
         val board = getItem(position)
         holder.boardBinding.boardNameTv.text = board.name
         holder.boardBinding.boardNameCard.setOnClickListener {
+            // TODO snackbar not showing up
             val text = "Clicked board ${board.name}"
+            Log.d(TAG, text)
             Snackbar
                 .make(holder.itemView, text, Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show()
 
-            navToBoard(board.name)
+            navToBoard(board.firestoreId, board.name)
         }
     }
 }

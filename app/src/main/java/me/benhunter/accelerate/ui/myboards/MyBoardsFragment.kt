@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.AuthInit
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
@@ -89,8 +88,8 @@ class MyBoardsFragment : Fragment() {
         }
     }
 
-    private fun navToBoard(board_id: String) {
-        val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(board_id)
+    private fun navToBoard(board_firestore_id: String, board_name: String) {
+        val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(board_firestore_id, board_name)
         findNavController().navigate(action)
     }
 }

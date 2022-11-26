@@ -27,9 +27,6 @@
             app:destination="@id/nav_board"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out">
-            <argument
-                android:name="board_id"
-                app:argType="string" />
         </action>
     </fragment>
 
@@ -45,7 +42,10 @@
         android:name="me.benhunter.accelerate.ui.board.BoardFragment"
         tools:layout="@layout/board">
         <argument
-            android:name="board_id"
+            android:name="board_firestore_id"
+            app:argType="string" />
+        <argument
+            android:name="board_name"
             app:argType="string" />
     </fragment>
 </navigation>

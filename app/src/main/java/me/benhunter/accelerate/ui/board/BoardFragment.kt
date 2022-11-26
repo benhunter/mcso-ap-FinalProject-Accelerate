@@ -13,6 +13,7 @@ import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 class BoardFragment : Fragment() {
 
+    private val TAG = javaClass.simpleName
     private var _binding: FragmentBoardBinding? = null
     private val binding get() = _binding!!
 
@@ -31,11 +32,11 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // TODO remove
 //        binding.fragmentBoardNameTv.text = args.boardId
-        (requireActivity() as MainActivity).supportActionBar?.title = args.boardId
+        (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
         val boardAdapter = BoardAdapter(layoutInflater)
         binding.boardRecyclerView.adapter = boardAdapter
-        val board = myBoardsViewModel.getBoardById(args.boardId)
+        val board = myBoardsViewModel.getBoardById(args.boardFirestoreId)
         boardAdapter.submitList(board?.categories)
     }
 }
