@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import me.benhunter.accelerate.AuthInit
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
-import me.benhunter.accelerate.ui.CreateBoardDialogFragment
+import me.benhunter.accelerate.ui.board.CreateBoardDialogFragment
 import me.benhunter.accelerate.ui.board.MyBoardsAdapter
 
 class MyBoardsFragment : Fragment() {
@@ -60,11 +60,6 @@ class MyBoardsFragment : Fragment() {
     }
 
     private fun onClickCreateBoard(v: View) {
-//        Snackbar
-//            .make(v, "MyBoardsFragment createBoard FAB", Snackbar.LENGTH_LONG)
-//            .setAction("Action", null)
-//            .show()
-
         val createBoardDialogFragment = CreateBoardDialogFragment()
         createBoardDialogFragment.show(parentFragmentManager, "create_board")
     }
@@ -88,8 +83,9 @@ class MyBoardsFragment : Fragment() {
         }
     }
 
-    private fun navToBoard(board_firestore_id: String, board_name: String) {
-        val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(board_firestore_id, board_name)
+    private fun navToBoard(boardFirestoreId: String, board_name: String) {
+        myBoardsViewModel.setCurrentBoard(boardFirestoreId)
+        val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(boardFirestoreId, board_name)
         findNavController().navigate(action)
     }
 }

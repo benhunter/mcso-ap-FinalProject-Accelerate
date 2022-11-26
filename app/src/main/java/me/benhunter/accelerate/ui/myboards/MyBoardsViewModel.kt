@@ -18,13 +18,14 @@ class MyBoardsViewModel : ViewModel() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val myBoards = MutableLiveData<List<Board>>()
+    private var currentBoard: Board? = null
 
     init {
         // Update the boards when user logs in.
         // TODO could try to consolidate with MainViewModel to have FirestoreAuth in one place
         FirestoreAuthLiveData().observeForever {
             Log.d(TAG, "FirestoreAuthLiveData $it")
-            if (it != null){
+            if (it != null) {
                 fetchMyBoards()
             }
         }
@@ -69,5 +70,13 @@ class MyBoardsViewModel : ViewModel() {
     fun observeMyBoards(): LiveData<List<Board>> {
         Log.d(TAG, "observeMyBoards")
         return myBoards
+    }
+
+    fun createCategory(name: String) {
+        TODO("Not yet implemented")
+    }
+
+    fun setCurrentBoard(boardFirestoreId: String) {
+        currentBoard = myBoards.value?.filter{ it.firestoreId == boardFirestoreId }?.get(0)
     }
 }

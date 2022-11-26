@@ -20,6 +20,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--    TODO fix theme-->
     <!--    Moved FAB here from app_bar_main -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_board_fab"
