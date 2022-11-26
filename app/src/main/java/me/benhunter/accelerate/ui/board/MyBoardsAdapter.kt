@@ -3,16 +3,17 @@ package me.benhunter.accelerate.ui.board
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import me.benhunter.accelerate.R
 import me.benhunter.accelerate.databinding.BoardBinding
 import me.benhunter.accelerate.model.Board
 
-class MyBoardsAdapter(val layoutInflater: LayoutInflater, val navToBoard: (board_id: String)-> Unit) :
+class MyBoardsAdapter(
+    val layoutInflater: LayoutInflater,
+    val navToBoard: (board_id: String) -> Unit
+) :
     ListAdapter<Board, MyBoardsAdapter.ViewHolder>(Diff()) {
 
     inner class ViewHolder(val boardBinding: BoardBinding) :
@@ -27,11 +28,11 @@ class MyBoardsAdapter(val layoutInflater: LayoutInflater, val navToBoard: (board
 
     class Diff : DiffUtil.ItemCallback<Board>() {
         override fun areItemsTheSame(oldItem: Board, newItem: Board): Boolean {
-            TODO("Not yet implemented")
+            return oldItem.firestoreId == newItem.firestoreId
         }
 
         override fun areContentsTheSame(oldItem: Board, newItem: Board): Boolean {
-            TODO("Not yet implemented")
+            return oldItem == newItem
         }
     }
 

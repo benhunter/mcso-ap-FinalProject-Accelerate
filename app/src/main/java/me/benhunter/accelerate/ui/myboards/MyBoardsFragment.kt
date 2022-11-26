@@ -18,10 +18,10 @@ import me.benhunter.accelerate.ui.board.MyBoardsAdapter
 
 class MyBoardsFragment : Fragment() {
 
+    private val TAG = javaClass.simpleName
     private var _binding: FragmentMyBoardsBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
@@ -32,15 +32,7 @@ class MyBoardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
         _binding = FragmentMyBoardsBinding.inflate(inflater, container, false)
-
-        // TODO remove
-//        val textView: TextView = binding.textHome
-//        homeViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
 
         // Firebase Auth
         // TODO do before other setup?
@@ -63,10 +55,14 @@ class MyBoardsFragment : Fragment() {
             myBoardsViewModel.createBoard()
         }
 
-        Log.d(javaClass.simpleName, "board ${myBoardsViewModel.board}")
-        boardAdapter.submitList(myBoardsViewModel.boards)
+        myBoardsViewModel.observeMyBoards().observe(this.viewLifecycleOwner) {
+            Log.d(TAG, "observeMyBoards")
+            boardAdapter.submitList(it)
+        }
 
-        Log.d(javaClass.simpleName, "auth ${mainViewModel.getUser()}")
+        myBoardsViewModel.fetchMyBoards()
+
+        Log.d(TAG, "auth ${mainViewModel.getUser()}")
     }
 
     override fun onDestroyView() {
@@ -84,7 +80,7 @@ class MyBoardsFragment : Fragment() {
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
-            Log.d("MainActivity", "sign in failed ${result}")
+            Log.d(TAG, "sign in failed ${result}")
         }
     }
 

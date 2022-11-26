@@ -1,6 +1,8 @@
 package me.benhunter.accelerate.ui.myboards
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import me.benhunter.accelerate.model.Board
@@ -10,13 +12,13 @@ import me.benhunter.accelerate.model.Task
 class MyBoardsViewModel : ViewModel() {
 
     private val TAG = javaClass.simpleName
-    private val firestoreCollection = "myBoards"
+    private val collection = "myBoards"
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    val board = generateBoard() // TODO replace with database!
+    private val myBoards = MutableLiveData<List<Board>>()
 
-    // TODO use in My Boards Fragment!
+    // TODO replace with myBoards from DB
     val boards = List(4) { boardNumber ->
         Board("Board $boardNumber", generateBoard())
     }
@@ -32,16 +34,28 @@ class MyBoardsViewModel : ViewModel() {
         return boards.find { it.name == boardId }
     }
 
-    fun createBoard(){
+    fun createBoard() {
         // add board record to firebase DB
         Log.d(TAG, "createBoard")
 
         val board = Board("TEST", listOf())
-        board.firestoreId = db.collection(firestoreCollection).document().id // generate a new document ID
-        db.collection(firestoreCollection).document(board.firestoreId).set(board)
+        board.firestoreId = db.collection(collection).document().id // generate a new document ID
+        db.collection(collection).document(board.firestoreId).set(board)
 
-        // TODO updateMyBoards
+        fetchMyBoards()
     }
 
+    fun fetchMyBoards() {
+        Log.d(TAG, "fetchMyBoards")
 
+        db.collection(collection).get().addOnSuccessListener { result ->
+            Log.d(TAG, "db get().addOnSuccessListener")
+            myBoards.postValue(result.mapNotNull { it.toObject(Board::class.java) })
+        }
+    }
+
+    fun observeMyBoards(): LiveData<List<Board>> {
+        Log.d(TAG, "observeMyBoards")
+        return myBoards
+    }
 }
