@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
+import me.benhunter.accelerate.FirestoreAuthLiveData
 import me.benhunter.accelerate.model.Board
 import me.benhunter.accelerate.model.Category
 import me.benhunter.accelerate.model.Task
@@ -17,6 +18,16 @@ class MyBoardsViewModel : ViewModel() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val myBoards = MutableLiveData<List<Board>>()
+
+    init {
+        // Update the boards when user logs in.
+        FirestoreAuthLiveData().observeForever {
+            Log.d(TAG, "FirestoreAuthLiveData $it")
+            if (it != null){
+                fetchMyBoards()
+            }
+        }
+    }
 
     // TODO replace with myBoards from DB
     val boards = List(4) { boardNumber ->
