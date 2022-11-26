@@ -34,11 +34,11 @@ class MyBoardsViewModel : ViewModel() {
         return boards.find { it.name == boardId }
     }
 
-    fun createBoard() {
+    fun createBoard(name: String) {
         // add board record to firebase DB
         Log.d(TAG, "createBoard")
 
-        val board = Board("TEST", listOf())
+        val board = Board(name, listOf())
         board.firestoreId = db.collection(collection).document().id // generate a new document ID
         db.collection(collection).document(board.firestoreId).set(board)
 

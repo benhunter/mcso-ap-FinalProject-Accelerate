@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.AuthInit
 import me.benhunter.accelerate.MainViewModel
 import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
+import me.benhunter.accelerate.ui.CreateBoardDialogFragment
 import me.benhunter.accelerate.ui.board.MyBoardsAdapter
 
 class MyBoardsFragment : Fragment() {
@@ -47,13 +48,7 @@ class MyBoardsFragment : Fragment() {
         val boardAdapter = MyBoardsAdapter(layoutInflater, ::navToBoard)
         binding.myBoardsRecyclerView.adapter = boardAdapter
 
-        binding.createBoardFab.setOnClickListener {
-            Snackbar
-                .make(it, "MyBoardsFragment createBoard FAB", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
-            myBoardsViewModel.createBoard()
-        }
+        binding.createBoardFab.setOnClickListener(::onClickCreateBoard)
 
         myBoardsViewModel.observeMyBoards().observe(this.viewLifecycleOwner) {
             Log.d(TAG, "observeMyBoards")
@@ -63,6 +58,16 @@ class MyBoardsFragment : Fragment() {
         myBoardsViewModel.fetchMyBoards()
 
         Log.d(TAG, "auth ${mainViewModel.getUser()}")
+    }
+
+    private fun onClickCreateBoard(v: View) {
+//        Snackbar
+//            .make(v, "MyBoardsFragment createBoard FAB", Snackbar.LENGTH_LONG)
+//            .setAction("Action", null)
+//            .show()
+
+        val createBoardDialogFragment = CreateBoardDialogFragment()
+        createBoardDialogFragment.show(parentFragmentManager, "create_board")
     }
 
     override fun onDestroyView() {
