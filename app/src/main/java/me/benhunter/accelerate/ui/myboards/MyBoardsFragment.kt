@@ -60,6 +60,7 @@ class MyBoardsFragment : Fragment() {
                 .make(it, "MyBoardsFragment FAB", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show()
+            myBoardsViewModel.createBoard()
         }
 
         Log.d(javaClass.simpleName, "board ${myBoardsViewModel.board}")

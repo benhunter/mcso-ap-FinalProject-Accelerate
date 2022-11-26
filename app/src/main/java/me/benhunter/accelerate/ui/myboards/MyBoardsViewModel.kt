@@ -1,20 +1,20 @@
 package me.benhunter.accelerate.ui.myboards
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import me.benhunter.accelerate.model.Board
 import me.benhunter.accelerate.model.Category
 import me.benhunter.accelerate.model.Task
 
 class MyBoardsViewModel : ViewModel() {
 
-//    private val _text = MutableLiveData<String>().apply {
-//        value = "This is home Fragment"
-//    }
-//    val text: LiveData<String> = _text
+    private val TAG = javaClass.simpleName
+    private val firestoreCollection = "myBoards"
 
-    val board = generateBoard() // TODO remove!
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    val board = generateBoard() // TODO replace with database!
 
     // TODO use in My Boards Fragment!
     val boards = List(4) { boardNumber ->
@@ -31,4 +31,17 @@ class MyBoardsViewModel : ViewModel() {
     fun getBoardById(boardId: String): Board? {
         return boards.find { it.name == boardId }
     }
+
+    fun createBoard(){
+        // add board record to firebase DB
+        Log.d(TAG, "createBoard")
+
+        val board = Board("TEST", listOf())
+        board.firestoreId = db.collection(firestoreCollection).document().id // generate a new document ID
+        db.collection(firestoreCollection).document(board.firestoreId).set(board)
+
+        // TODO updateMyBoards
+    }
+
+
 }
