@@ -29,11 +29,12 @@
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_task_button"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="0dp"
-                android:text="Add Task" />
+                android:text="@string/add_task" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>

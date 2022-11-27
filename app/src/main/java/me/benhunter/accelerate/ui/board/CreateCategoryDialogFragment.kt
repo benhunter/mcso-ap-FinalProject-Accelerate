@@ -24,7 +24,7 @@ class CreateCategoryDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(it)
 
             val alertDialog =
-                builder.setMessage(R.string.create_a_board)
+                builder.setMessage(R.string.create_a_category)
 
                     .setPositiveButton(
                         R.string.create

@@ -2,16 +2,18 @@ package me.benhunter.accelerate.ui.board
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.CategoryBinding
 import me.benhunter.accelerate.model.Category
 
-// Board holds a List of TaskList. TaskList holds a List of Tasks.
+// Board holds a List of Category. Category holds a List of Task.
 class BoardAdapter(private val layoutInflater: LayoutInflater) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {
 
@@ -38,7 +40,6 @@ class BoardAdapter(private val layoutInflater: LayoutInflater) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val categoryBinding =
             CategoryBinding.inflate(layoutInflater, parent, false)
-//            TaskListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         Log.d(
             javaClass.simpleName, "width ${parent.width}"
@@ -49,15 +50,9 @@ class BoardAdapter(private val layoutInflater: LayoutInflater) :
                 taskListLayoutWidth,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-//        taskListBinding.root.setPadding(100)
 
-//        val taskListView = layoutInflater.inflate(R.layout.task_list, parent, false)
-//        taskListView.layoutParams = LinearLayoutCompat.LayoutParams(parent.width)
 
-        // TODO Set width by LayoutParams?
-//        LayoutInflater.from(parent.context).inflate(R.layout.task_list, parent)
-//        val layoutParams = LinearLayout.LayoutParams(width, height)
-//        taskListBinding.layoutParams = layoutParams
+        categoryBinding.addTaskButton.setOnClickListener(::onClickAddTaskButton)
 
         return ViewHolder(categoryBinding)
     }
@@ -73,6 +68,13 @@ class BoardAdapter(private val layoutInflater: LayoutInflater) :
         holder.categoryBinding.tasksRv.adapter = taskListAdapter
         taskListAdapter.submitList(taskList.tasks)
 
+    }
+
+    private fun onClickAddTaskButton(view: View) {
+        Snackbar
+            .make(view, "Add Task", Snackbar.LENGTH_LONG)
+            .setAction("Action", null)
+            .show()
     }
 
 }

@@ -20,7 +20,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    TODO fix theme-->
+    <!--    TODO fix theme-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_category_fab"
         android:layout_width="wrap_content"

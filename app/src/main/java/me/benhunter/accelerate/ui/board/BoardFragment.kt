@@ -36,11 +36,12 @@ class BoardFragment : Fragment() {
         val boardAdapter = BoardAdapter(layoutInflater)
         binding.boardRecyclerView.adapter = boardAdapter
 
-        myBoardsViewModel.observeCurrentBoardCategories()
-        val board = myBoardsViewModel.getBoardById(args.boardFirestoreId)
+//        myBoardsViewModel.observeCurrentBoardCategories().observe(viewLifecycleOwner){
+//            boardAdapter.submitList(it)
+//        }
 
-        myBoardsViewModel.observeCurrentBoardCategories().observe(this.viewLifecycleOwner){
-            boardAdapter.submitList(it)
+        myBoardsViewModel.observeCurrentBoard().observe(viewLifecycleOwner) {
+            boardAdapter.submitList(it.categories)
         }
 
 //        boardAdapter.submitList()
