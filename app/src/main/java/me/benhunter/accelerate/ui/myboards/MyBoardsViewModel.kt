@@ -14,13 +14,11 @@ class MyBoardsViewModel : ViewModel() {
 
     private val TAG = javaClass.simpleName
     private val myBoardsCollection = "myBoards"
-    private val categoryCollection = "categories"
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val myBoards = MutableLiveData<List<Board>>()
     private var currentBoard = MutableLiveData<Board>()
-    private val currentCategories = MutableLiveData<List<Category>>()
 
     init {
         // Update the boards when user logs in.
@@ -32,23 +30,6 @@ class MyBoardsViewModel : ViewModel() {
             }
         }
     }
-
-    // TODO replace with myBoards from DB
-    val boards = List(4) { boardNumber ->
-        Board("Board $boardNumber", generateBoard().toMutableList())
-    }
-
-    private fun generateBoard(): List<Category> {
-        return List(5) { categoryNumber ->
-            val tasks = List(5) { taskNumber -> Task("task $taskNumber") }
-            Category("category $categoryNumber", tasks)
-        }
-    }
-
-    // TODO remove?
-//    fun getBoardById(boardId: String): Board? {
-//        return boards.find { it.name == boardId }
-//    }
 
     fun createBoard(name: String) {
         // add board record to firebase DB
@@ -82,12 +63,8 @@ class MyBoardsViewModel : ViewModel() {
     }
 
     fun setCurrentBoard(boardFirestoreId: String) {
-        val boardFilterResult = myBoards.value?.filter { it.firestoreId == boardFirestoreId }
-        if (boardFilterResult != null) {
-            if (boardFilterResult.isNotEmpty()) {
-                currentBoard.postValue(boardFilterResult[0])
-            }
-        }
+        val board = myBoards.value?.find { it.firestoreId == boardFirestoreId } ?: return
+        currentBoard.postValue(board)
         fetchMyBoards()
     }
 
@@ -97,15 +74,22 @@ class MyBoardsViewModel : ViewModel() {
 
     fun createCategory(name: String) {
         val category = Category(name)
-//        currentBoard.value?.categories?.add(category)
-
         currentBoard.value?.let {
             it.categories.add(category)
-            updateBoard(it) }
+            updateBoard(it)
+        }
     }
 
-    fun observeCurrentBoardCategories(): LiveData<List<Category>> {
-        return currentCategories
+    fun createTask(category: Category, name: String) {
+        Log.d(TAG, "createTask $category id:${category.firestoreId} $name")
+
+        val task = Task(name)
+        currentBoard.value?.let { board ->
+            board.categories.find { it == category }
+                ?.tasks
+                ?.add(task)
+            updateBoard(board)
+        }
     }
 
 }

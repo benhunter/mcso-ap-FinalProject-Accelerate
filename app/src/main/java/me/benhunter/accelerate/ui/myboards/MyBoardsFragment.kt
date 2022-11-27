@@ -59,7 +59,7 @@ class MyBoardsFragment : Fragment() {
         Log.d(TAG, "auth ${mainViewModel.getUser()}")
     }
 
-    private fun onClickCreateBoard(v: View) {
+    private fun onClickCreateBoard(view: View) {
         val createBoardDialogFragment = CreateBoardDialogFragment()
         createBoardDialogFragment.show(parentFragmentManager, "create_board")
     }

@@ -2,9 +2,9 @@ package me.benhunter.accelerate.ui.board
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -14,7 +14,10 @@ import me.benhunter.accelerate.databinding.CategoryBinding
 import me.benhunter.accelerate.model.Category
 
 // Board holds a List of Category. Category holds a List of Task.
-class BoardAdapter(private val layoutInflater: LayoutInflater) :
+class BoardAdapter(
+    private val layoutInflater: LayoutInflater,
+    private val fragmentManager: FragmentManager
+) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {
 
     inner class ViewHolder(val categoryBinding: CategoryBinding) :
@@ -51,30 +54,30 @@ class BoardAdapter(private val layoutInflater: LayoutInflater) :
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
-
-        categoryBinding.addTaskButton.setOnClickListener(::onClickAddTaskButton)
-
         return ViewHolder(categoryBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val taskList = getItem(position)
-        holder.categoryBinding.listNameTv.text = taskList.name
+        val category = getItem(position)
+        holder.categoryBinding.listNameTv.text = category.name
 
         // Setup the RecyclerView for each list of Tasks
         holder.categoryBinding.tasksRv.layoutManager =
             LinearLayoutManager(holder.categoryBinding.root.context)
         val taskListAdapter = TaskListAdapter()
         holder.categoryBinding.tasksRv.adapter = taskListAdapter
-        taskListAdapter.submitList(taskList.tasks)
+        taskListAdapter.submitList(category.tasks)
 
+        holder.categoryBinding.addTaskButton.setOnClickListener {
+            Snackbar
+                .make(it, "Add Task to ${category.name}", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+
+            val createTaskDialogFragment = CreateTaskDialogFragment(category)
+            createTaskDialogFragment.show(fragmentManager, "create_task")
+        }
     }
 
-    private fun onClickAddTaskButton(view: View) {
-        Snackbar
-            .make(view, "Add Task", Snackbar.LENGTH_LONG)
-            .setAction("Action", null)
-            .show()
-    }
-
+    // TODO observe category to get new tasks
 }

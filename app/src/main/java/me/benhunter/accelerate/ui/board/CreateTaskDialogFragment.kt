@@ -8,10 +8,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import me.benhunter.accelerate.R
-import me.benhunter.accelerate.databinding.FragmentCreateBoardDialogBinding
+import me.benhunter.accelerate.databinding.FragmentCreateNamedItemDialogBinding
+import me.benhunter.accelerate.model.Category
 import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
-class CreateBoardDialogFragment : DialogFragment() {
+class CreateTaskDialogFragment(private val category: Category) : DialogFragment() {
 
     private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
 
@@ -19,20 +20,21 @@ class CreateBoardDialogFragment : DialogFragment() {
         return activity?.let {
 
             val inflater = requireActivity().layoutInflater
-            // TODO use item name layout
-            val binding = FragmentCreateBoardDialogBinding.inflate(inflater)
+            val binding = FragmentCreateNamedItemDialogBinding.inflate(inflater)
             val view = binding.root
             val builder = AlertDialog.Builder(it)
 
             val alertDialog =
-                builder.setMessage(R.string.create_a_board)
+                builder.setMessage(R.string.create_a_category)
 
                     .setPositiveButton(
                         R.string.create
                     ) { dialog, id -> //
-                        val name = binding.createBoardNameEdittext.text.toString()
+                        val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
-                            myBoardsViewModel.createBoard(name)
+                            // TODO args categoryId
+                            val categoryId = "1"
+                            myBoardsViewModel.createTask(category, name)
                         } else {
                             val text = "Please put a name"
                             Toast
@@ -51,7 +53,7 @@ class CreateBoardDialogFragment : DialogFragment() {
                     .setView(view)
                     .create()
 
-            binding.createBoardNameEdittext.addTextChangedListener {
+            binding.createNameEdittext.addTextChangedListener {
                 val alertDialogWhenNameTextChanged = dialog as AlertDialog
                 alertDialogWhenNameTextChanged.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
                     it.toString().isNotEmpty()

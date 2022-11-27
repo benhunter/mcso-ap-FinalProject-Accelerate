@@ -33,7 +33,7 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
-        val boardAdapter = BoardAdapter(layoutInflater)
+        val boardAdapter = BoardAdapter(layoutInflater, parentFragmentManager)
         binding.boardRecyclerView.adapter = boardAdapter
 
 //        myBoardsViewModel.observeCurrentBoardCategories().observe(viewLifecycleOwner){

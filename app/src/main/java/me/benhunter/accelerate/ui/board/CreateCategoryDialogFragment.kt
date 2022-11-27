@@ -19,6 +19,7 @@ class CreateCategoryDialogFragment : DialogFragment() {
         return activity?.let {
 
             val inflater = requireActivity().layoutInflater
+            // TODO use item name layout
             val binding = FragmentCreateCategoryDialogBinding.inflate(inflater)
             val view = binding.root
             val builder = AlertDialog.Builder(it)
