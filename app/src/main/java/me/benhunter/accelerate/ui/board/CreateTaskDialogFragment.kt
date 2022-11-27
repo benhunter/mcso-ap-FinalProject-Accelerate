@@ -32,9 +32,10 @@ class CreateTaskDialogFragment(private val category: Category) : DialogFragment(
                     ) { dialog, id -> //
                         val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
-                            // TODO args categoryId
-                            val categoryId = "1"
-                            myBoardsViewModel.createTask(category, name)
+                            myBoardsViewModel.observeCurrentBoard().value?.let { currentBoard ->
+                                myBoardsViewModel.createTask(
+                                    currentBoard, category, name)
+                            }
                         } else {
                             val text = "Please put a name"
                             Toast

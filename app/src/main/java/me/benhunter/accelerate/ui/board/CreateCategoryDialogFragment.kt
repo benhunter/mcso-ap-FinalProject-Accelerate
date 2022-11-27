@@ -8,7 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import me.benhunter.accelerate.R
-import me.benhunter.accelerate.databinding.FragmentCreateCategoryDialogBinding
+import me.benhunter.accelerate.databinding.FragmentCreateNamedItemDialogBinding
 import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 class CreateCategoryDialogFragment : DialogFragment() {
@@ -20,7 +20,7 @@ class CreateCategoryDialogFragment : DialogFragment() {
 
             val inflater = requireActivity().layoutInflater
             // TODO use item name layout
-            val binding = FragmentCreateCategoryDialogBinding.inflate(inflater)
+            val binding = FragmentCreateNamedItemDialogBinding.inflate(inflater)
             val view = binding.root
             val builder = AlertDialog.Builder(it)
 
@@ -30,9 +30,9 @@ class CreateCategoryDialogFragment : DialogFragment() {
                     .setPositiveButton(
                         R.string.create
                     ) { dialog, id -> //
-                        val name = binding.createCategoryNameEdittext.text.toString()
+                        val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
-                            myBoardsViewModel.createCategory(name)
+                            myBoardsViewModel.createCategoryInCurrentBoard(name)
                         } else {
                             val text = "Please put a name"
                             Toast
@@ -51,7 +51,7 @@ class CreateCategoryDialogFragment : DialogFragment() {
                     .setView(view)
                     .create()
 
-            binding.createCategoryNameEdittext.addTextChangedListener {
+            binding.createNameEdittext.addTextChangedListener {
                 val alertDialogWhenNameTextChanged = dialog as AlertDialog
                 alertDialogWhenNameTextChanged.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
                     it.toString().isNotEmpty()

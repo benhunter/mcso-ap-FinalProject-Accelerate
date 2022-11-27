@@ -5,20 +5,27 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.CategoryBinding
+import me.benhunter.accelerate.model.Board
 import me.benhunter.accelerate.model.Category
+import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 // Board holds a List of Category. Category holds a List of Task.
 class BoardAdapter(
     private val layoutInflater: LayoutInflater,
-    private val fragmentManager: FragmentManager
+    private val fragmentManager: FragmentManager,
+    private val myBoardsViewModel: MyBoardsViewModel,
+    private val viewLifecycleOwner: LifecycleOwner,
 ) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {
+
+    private val TAG = javaClass.simpleName
 
     inner class ViewHolder(val categoryBinding: CategoryBinding) :
         RecyclerView.ViewHolder(categoryBinding.root) {
@@ -32,11 +39,11 @@ class BoardAdapter(
 
     class Diff : DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
-            TODO("Not yet implemented")
+            return oldItem.firestoreId == newItem.firestoreId
         }
 
         override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
-            TODO("Not yet implemented")
+            return oldItem == newItem
         }
     }
 
@@ -66,18 +73,29 @@ class BoardAdapter(
             LinearLayoutManager(holder.categoryBinding.root.context)
         val taskListAdapter = TaskListAdapter()
         holder.categoryBinding.tasksRv.adapter = taskListAdapter
+
         taskListAdapter.submitList(category.tasks)
 
-        holder.categoryBinding.addTaskButton.setOnClickListener {
-            Snackbar
-                .make(it, "Add Task to ${category.name}", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+        myBoardsViewModel.observeCurrentBoard().observe(viewLifecycleOwner) { board ->
+            val updatedCategory = board.categories.find { it.firestoreId == category.firestoreId }
+            Log.d(TAG, "observeCurrentBoard category.name=${category.name}")
+            val tasks = updatedCategory?.tasks
+            tasks?.let {
+                taskListAdapter.submitList(it)
+            }
+//        }
 
-            val createTaskDialogFragment = CreateTaskDialogFragment(category)
-            createTaskDialogFragment.show(fragmentManager, "create_task")
+            holder.categoryBinding.addTaskButton.setOnClickListener {
+                Snackbar
+                    .make(it, "Add Task to ${category.name}", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show()
+
+                val createTaskDialogFragment = CreateTaskDialogFragment(category)
+                createTaskDialogFragment.show(fragmentManager, "create_task")
+            }
         }
-    }
 
-    // TODO observe category to get new tasks
+        // TODO observe category to get new tasks
+    }
 }

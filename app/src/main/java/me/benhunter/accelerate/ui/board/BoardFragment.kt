@@ -33,12 +33,8 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
-        val boardAdapter = BoardAdapter(layoutInflater, parentFragmentManager)
+        val boardAdapter = BoardAdapter(layoutInflater, parentFragmentManager, myBoardsViewModel, viewLifecycleOwner)
         binding.boardRecyclerView.adapter = boardAdapter
-
-//        myBoardsViewModel.observeCurrentBoardCategories().observe(viewLifecycleOwner){
-//            boardAdapter.submitList(it)
-//        }
 
         myBoardsViewModel.observeCurrentBoard().observe(viewLifecycleOwner) {
             boardAdapter.submitList(it.categories)

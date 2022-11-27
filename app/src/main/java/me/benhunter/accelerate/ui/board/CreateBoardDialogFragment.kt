@@ -8,7 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import me.benhunter.accelerate.R
-import me.benhunter.accelerate.databinding.FragmentCreateBoardDialogBinding
+import me.benhunter.accelerate.databinding.FragmentCreateNamedItemDialogBinding
 import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 class CreateBoardDialogFragment : DialogFragment() {
@@ -20,7 +20,7 @@ class CreateBoardDialogFragment : DialogFragment() {
 
             val inflater = requireActivity().layoutInflater
             // TODO use item name layout
-            val binding = FragmentCreateBoardDialogBinding.inflate(inflater)
+            val binding = FragmentCreateNamedItemDialogBinding.inflate(inflater)
             val view = binding.root
             val builder = AlertDialog.Builder(it)
 
@@ -30,7 +30,7 @@ class CreateBoardDialogFragment : DialogFragment() {
                     .setPositiveButton(
                         R.string.create
                     ) { dialog, id -> //
-                        val name = binding.createBoardNameEdittext.text.toString()
+                        val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
                             myBoardsViewModel.createBoard(name)
                         } else {
@@ -51,7 +51,7 @@ class CreateBoardDialogFragment : DialogFragment() {
                     .setView(view)
                     .create()
 
-            binding.createBoardNameEdittext.addTextChangedListener {
+            binding.createNameEdittext.addTextChangedListener {
                 val alertDialogWhenNameTextChanged = dialog as AlertDialog
                 alertDialogWhenNameTextChanged.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
                     it.toString().isNotEmpty()

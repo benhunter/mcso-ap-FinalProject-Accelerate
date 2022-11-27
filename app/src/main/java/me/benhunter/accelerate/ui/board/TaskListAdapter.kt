@@ -23,11 +23,11 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.ViewHolder>(Diff()) {
 
     class Diff : DiffUtil.ItemCallback<Task>() {
         override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
-            TODO("Not yet implemented")
+            return oldItem.firestoreId == newItem.firestoreId
         }
 
         override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
-            TODO("Not yet implemented")
+            return oldItem == newItem
         }
     }
 
