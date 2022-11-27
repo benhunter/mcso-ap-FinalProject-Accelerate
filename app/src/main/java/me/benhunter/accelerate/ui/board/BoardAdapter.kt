@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.CategoryBinding
-import me.benhunter.accelerate.model.Board
 import me.benhunter.accelerate.model.Category
 import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
@@ -77,25 +76,25 @@ class BoardAdapter(
         taskListAdapter.submitList(category.tasks)
 
         myBoardsViewModel.observeCurrentBoard().observe(viewLifecycleOwner) { board ->
+            // TODO BUG - wrong firestoreId, using Board's ID
             val updatedCategory = board.categories.find { it.firestoreId == category.firestoreId }
             Log.d(TAG, "observeCurrentBoard category.name=${category.name}")
             val tasks = updatedCategory?.tasks
             tasks?.let {
                 taskListAdapter.submitList(it)
             }
-//        }
-
-            holder.categoryBinding.addTaskButton.setOnClickListener {
-                Snackbar
-                    .make(it, "Add Task to ${category.name}", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
-                    .show()
-
-                val createTaskDialogFragment = CreateTaskDialogFragment(category)
-                createTaskDialogFragment.show(fragmentManager, "create_task")
-            }
         }
 
-        // TODO observe category to get new tasks
+        holder.categoryBinding.addTaskButton.setOnClickListener {
+            Snackbar
+                .make(it, "Add Task to ${category.name}", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+
+            val createTaskDialogFragment = CreateTaskDialogFragment(category)
+            createTaskDialogFragment.show(fragmentManager, "create_task")
+        }
     }
+
+    // TODO observe category to get new tasks
 }

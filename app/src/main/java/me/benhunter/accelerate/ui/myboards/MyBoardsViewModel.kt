@@ -51,6 +51,10 @@ class MyBoardsViewModel : ViewModel() {
         db.collection(myBoardsCollection).get().addOnSuccessListener { result ->
             Log.d(TAG, "fetchMyBoards db get().addOnSuccessListener")
             Log.d(TAG, "fetchMyBoards result ${result.toString()}")
+            result.documents.forEach {
+                Log.d(TAG, "fetchMyBoards result.documents $it")
+                Log.d(TAG, "fetchMyBoards result.documents ${it.data}")
+            }
             myBoards.postValue(result.mapNotNull { it.toObject(Board::class.java) })
         }
     }
@@ -119,6 +123,7 @@ class MyBoardsViewModel : ViewModel() {
                     .collection(categoriesCollection)
                     .document()
                     .id
+            Log.d(TAG, "createCategoryInCurrentBoard create category id: ${category.firestoreId}")
 
             it.categories.add(category)
 
