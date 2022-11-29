@@ -10,11 +10,10 @@ import androidx.fragment.app.activityViewModels
 import me.benhunter.accelerate.R
 import me.benhunter.accelerate.databinding.FragmentCreateNamedItemDialogBinding
 import me.benhunter.accelerate.model.Category
-import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 class CreateTaskDialogFragment(private val category: Category) : DialogFragment() {
 
-    private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
+    private val boardViewModel: BoardViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -25,18 +24,14 @@ class CreateTaskDialogFragment(private val category: Category) : DialogFragment(
             val builder = AlertDialog.Builder(it)
 
             val alertDialog =
-                builder.setMessage(R.string.create_a_category)
+                builder.setMessage(R.string.create_a_task)
 
                     .setPositiveButton(
                         R.string.create
                     ) { dialog, id -> //
                         val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
-//                            myBoardsViewModel.observeCurrentBoard().value?.let { currentBoard ->
-//                                // TODO create task
-////                                myBoardsViewModel.createTask(
-////                                    currentBoard, category, name)
-//                            }
+                            boardViewModel.createTask(name, category.firestoreId)
                         } else {
                             val text = "Please put a name"
                             Toast

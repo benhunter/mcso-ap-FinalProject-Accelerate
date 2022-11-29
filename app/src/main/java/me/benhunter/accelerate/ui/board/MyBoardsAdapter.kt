@@ -47,13 +47,8 @@ class MyBoardsAdapter(
         val board = getItem(position)
         holder.boardBinding.boardNameTv.text = board.name
         holder.boardBinding.boardNameCard.setOnClickListener {
-            // TODO snackbar not showing up
             val text = "Clicked board ${board.name}"
             Log.d(TAG, text)
-            Snackbar
-                .make(holder.itemView, text, Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
 
             navToBoard(board.firestoreId, board.name)
         }

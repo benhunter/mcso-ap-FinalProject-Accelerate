@@ -7,17 +7,19 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import me.benhunter.accelerate.model.Board
 import me.benhunter.accelerate.model.Category
+import me.benhunter.accelerate.model.Task
 
 class BoardViewModel : ViewModel() {
     private val TAG = javaClass.simpleName
 
-    private val boardsCollection = "boards" // TODO use same as MyBoardsViewModel
+    private val boardsCollection = "boards" // TODO use same string as MyBoardsViewModel
     private val categoriesCollection = "categories"
     private val taskCollection = "tasks"
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val board = MutableLiveData<Board>()
     private val categories = MutableLiveData<List<Category>>()
+    private val tasks = MutableLiveData<List<Task>>()
 
     // Must set a board before interacting with the Categories
     fun setBoard(boardFirestoreId: String) {
@@ -33,17 +35,22 @@ class BoardViewModel : ViewModel() {
         }
     }
 
+    fun resetCategories() {
+        Log.d(TAG, "resetCategories")
+        categories.postValue(listOf())
+    }
+
     fun observeCategories(): LiveData<List<Category>> {
         return categories
     }
 
+    // TODO filter to boards of current user
     fun fetchCategories() {
         Log.d(TAG, "fetchCategories")
 
-        val boardId = board.value?.firestoreId
-            ?: throw RuntimeException("Cannot fetch Categories without boardId.")
-
-        db.collection(categoriesCollection).whereEqualTo("boardId", boardId).get()
+        // Get all categories, then filter in BoardAdapter
+        db.collection(categoriesCollection)
+            .get()
             .addOnSuccessListener {
                 Log.d(TAG, "fetchCategories query success")
 
@@ -71,5 +78,39 @@ class BoardViewModel : ViewModel() {
 
     fun observeBoard(): LiveData<Board> {
         return board
+    }
+
+    fun createTask(name: String, categoryId: String) {
+        Log.d(TAG, "createTask name $name")
+
+        val firestoreId = db.collection(taskCollection).document().id
+        val task = Task(name, firestoreId, categoryId)
+
+        db.collection(taskCollection).document(task.firestoreId).set(task)
+            .addOnSuccessListener {
+                fetchTasks()
+            }
+    }
+
+    fun fetchTasks() {
+        Log.d(TAG, "fetchTasks")
+
+        db.collection(taskCollection)
+            .get()
+            .addOnSuccessListener {
+                Log.d(TAG, "fetchTasks query success")
+
+                val taskResult = it.toObjects(Task::class.java)
+
+                Log.d(TAG, "fetchTasks posting tasks")
+                tasks.postValue(taskResult)
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "fetchTasks query failed")
+            }
+    }
+
+    fun observeTasks(): LiveData<List<Task>> {
+        return tasks
     }
 }

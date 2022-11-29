@@ -27,4 +27,5 @@
     <string name="create_a_category">Create a Category</string>
     <string name="add_task">Add Task</string>
     <string name="name">Name</string>
+    <string name="create_a_task">Create a Task</string>
 </resources>

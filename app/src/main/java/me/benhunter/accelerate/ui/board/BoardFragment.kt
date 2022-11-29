@@ -21,10 +21,14 @@ class BoardFragment : Fragment() {
     private val args: BoardFragmentArgs by navArgs()
 
     private val boardViewModel: BoardViewModel by activityViewModels()
+    // sharing ViewModel causes old data to show for a moment while current board loads - unless we load the whole collection
+    // private val boardViewModel = BoardViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG, "onCreateView")
+
         // Inflate the layout for this fragment
         _binding = FragmentBoardBinding.inflate(inflater, container, false)
         return binding.root
@@ -32,34 +36,33 @@ class BoardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.d(TAG, "onViewCreated")
-        (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
+        boardViewModel.setBoard(args.boardFirestoreId)
+
+        (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
         val boardAdapter =
             BoardAdapter(layoutInflater, parentFragmentManager, boardViewModel, viewLifecycleOwner)
         binding.boardRecyclerView.adapter = boardAdapter
 
-        boardViewModel.observeCategories().observe(viewLifecycleOwner) {
-            Log.d(TAG, "boardViewModel.observeCategories().observe submitList")
-            boardAdapter.submitList(it)
-        }
-
         boardViewModel.observeBoard().observe(viewLifecycleOwner) {
             Log.d(TAG, "boardViewModel.observeBoard().observe fetchCategories")
             boardViewModel.fetchCategories()
+            boardViewModel.fetchTasks()
+        }
+
+        boardViewModel.observeCategories().observe(viewLifecycleOwner) {
+            Log.d(TAG, "boardViewModel.observeCategories().observe submitList")
+
+            // Prefer to filter in BoardViewModel
+            val categoriesForCurrentBoard = it.filter { it.boardId == args.boardFirestoreId }
+            boardAdapter.submitList(categoriesForCurrentBoard)
         }
 
         binding.createCategoryFab.setOnClickListener(::onClickCreateCategory)
-
-        boardViewModel.setBoard(args.boardFirestoreId)
     }
 
     private fun onClickCreateCategory(view: View) {
-        Snackbar
-            .make(view, "onClickCreateCategory createCategory FAB", Snackbar.LENGTH_LONG)
-            .setAction("Action", null)
-            .show()
-
         val createCategoryDialogFragment = CreateCategoryDialogFragment()
         createCategoryDialogFragment.show(parentFragmentManager, "create_category")
     }

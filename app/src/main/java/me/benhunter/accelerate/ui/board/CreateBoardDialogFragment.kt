@@ -19,7 +19,6 @@ class CreateBoardDialogFragment : DialogFragment() {
         return activity?.let {
 
             val inflater = requireActivity().layoutInflater
-            // TODO use item name layout
             val binding = FragmentCreateNamedItemDialogBinding.inflate(inflater)
             val view = binding.root
             val builder = AlertDialog.Builder(it)

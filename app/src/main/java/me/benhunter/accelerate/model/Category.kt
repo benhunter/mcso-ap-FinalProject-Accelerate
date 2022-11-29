@@ -4,8 +4,8 @@ import com.google.firebase.firestore.DocumentId
 
 class Category(
     val name: String = "",
-    @DocumentId var firestoreId: String = "",
-    var boardId: String = "",
+    @DocumentId val firestoreId: String = "",
+    val boardId: String = "",
 ) {
 
     override fun equals(other: Any?): Boolean {

@@ -4,7 +4,8 @@ import com.google.firebase.firestore.DocumentId
 
 class Task(
     val name: String = "",
-    @DocumentId var firestoreId: String = "",
+    @DocumentId val firestoreId: String = "",
+    val categoryId: String = "",
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -15,6 +16,7 @@ class Task(
 
         if (name != other.name) return false
         if (firestoreId != other.firestoreId) return false
+        if (categoryId != other.categoryId) return false
 
         return true
     }
@@ -22,6 +24,7 @@ class Task(
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + firestoreId.hashCode()
+        result = 31 * result + categoryId.hashCode()
         return result
     }
 }

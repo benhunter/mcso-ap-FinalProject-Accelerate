@@ -72,20 +72,10 @@ class BoardAdapter(
         val taskListAdapter = TaskListAdapter()
         holder.categoryBinding.tasksRv.adapter = taskListAdapter
 
-        // TODO submit tasks
-//        taskListAdapter.submitList(category.tasks)
-
-        boardViewModel.observeCategories().observe(viewLifecycleOwner) { categories ->
-            // TODO BUG - wrong firestoreId, using Board's ID
-//            val updatedCategory = board.categories.find { it.firestoreId == category.firestoreId }
-            Log.d(
-                TAG,
-                "boardViewModel.observeCategories().observe(viewLifecycleOwner) category.name=${category.name} categories=${categories}"
-            )
-//            val tasks = updatedCategory?.tasks
-//            tasks?.let {
-//                taskListAdapter.submitList(it)
-//            }
+        boardViewModel.observeTasks().observe(viewLifecycleOwner) { tasks ->
+            Log.d(TAG, "boardViewModel.observeTasks().observe category.name=${category.name}")
+            val tasksResult = tasks.filter { it.categoryId == category.firestoreId }
+            taskListAdapter.submitList(tasksResult)
         }
 
         holder.categoryBinding.addTaskButton.setOnClickListener {
@@ -98,6 +88,4 @@ class BoardAdapter(
             createTaskDialogFragment.show(fragmentManager, "create_task")
         }
     }
-
-    // TODO observe category to get new tasks
 }
