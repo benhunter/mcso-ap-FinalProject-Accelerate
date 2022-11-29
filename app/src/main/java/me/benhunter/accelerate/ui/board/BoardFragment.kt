@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.MainActivity
 import me.benhunter.accelerate.databinding.FragmentBoardBinding
-import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 class BoardFragment : Fragment() {
 
@@ -32,22 +31,27 @@ class BoardFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
+
 
         val boardAdapter =
             BoardAdapter(layoutInflater, parentFragmentManager, boardViewModel, viewLifecycleOwner)
         binding.boardRecyclerView.adapter = boardAdapter
 
         boardViewModel.observeCategories().observe(viewLifecycleOwner) {
-            // TODO submit list of categories
             Log.d(TAG, "boardViewModel.observeCategories().observe submitList")
             boardAdapter.submitList(it)
         }
 
-        // TODO need to submit once or does observer with lifecycle do it?
-//        boardAdapter.submitList()
+        boardViewModel.observeBoard().observe(viewLifecycleOwner) {
+            Log.d(TAG, "boardViewModel.observeBoard().observe fetchCategories")
+            boardViewModel.fetchCategories()
+        }
 
         binding.createCategoryFab.setOnClickListener(::onClickCreateCategory)
+
+        boardViewModel.setBoard(args.boardFirestoreId)
     }
 
     private fun onClickCreateCategory(view: View) {

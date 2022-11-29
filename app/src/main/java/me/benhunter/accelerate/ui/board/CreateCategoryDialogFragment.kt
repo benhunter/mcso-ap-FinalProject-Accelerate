@@ -9,17 +9,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import me.benhunter.accelerate.R
 import me.benhunter.accelerate.databinding.FragmentCreateNamedItemDialogBinding
-import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 class CreateCategoryDialogFragment : DialogFragment() {
 
-    private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
+    private val boardViewModel: BoardViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
 
             val inflater = requireActivity().layoutInflater
-            // TODO use item name layout
             val binding = FragmentCreateNamedItemDialogBinding.inflate(inflater)
             val view = binding.root
             val builder = AlertDialog.Builder(it)
@@ -29,11 +27,10 @@ class CreateCategoryDialogFragment : DialogFragment() {
 
                     .setPositiveButton(
                         R.string.create
-                    ) { dialog, id -> //
+                    ) { dialog, id ->
                         val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
-                            // TODO create category in boardViewModel
-//                            myBoardsViewModel.createCategoryInCurrentBoard(name)
+                            boardViewModel.createCategory(name)
                         } else {
                             val text = "Please put a name"
                             Toast
