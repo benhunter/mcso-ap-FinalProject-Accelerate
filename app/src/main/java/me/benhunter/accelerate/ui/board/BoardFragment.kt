@@ -1,6 +1,7 @@
 package me.benhunter.accelerate.ui.board
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class BoardFragment : Fragment() {
 
     private val args: BoardFragmentArgs by navArgs()
 
-    private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
+    private val boardViewModel: BoardViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,13 +34,17 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
-        val boardAdapter = BoardAdapter(layoutInflater, parentFragmentManager, myBoardsViewModel, viewLifecycleOwner)
+        val boardAdapter =
+            BoardAdapter(layoutInflater, parentFragmentManager, boardViewModel, viewLifecycleOwner)
         binding.boardRecyclerView.adapter = boardAdapter
 
-        myBoardsViewModel.observeCurrentBoard().observe(viewLifecycleOwner) {
-            boardAdapter.submitList(it.categories)
+        boardViewModel.observeCategories().observe(viewLifecycleOwner) {
+            // TODO submit list of categories
+            Log.d(TAG, "boardViewModel.observeCategories().observe submitList")
+            boardAdapter.submitList(it)
         }
 
+        // TODO need to submit once or does observer with lifecycle do it?
 //        boardAdapter.submitList()
 
         binding.createCategoryFab.setOnClickListener(::onClickCreateCategory)

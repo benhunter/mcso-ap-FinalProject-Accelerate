@@ -13,13 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.CategoryBinding
 import me.benhunter.accelerate.model.Category
-import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
 
 // Board holds a List of Category. Category holds a List of Task.
 class BoardAdapter(
     private val layoutInflater: LayoutInflater,
     private val fragmentManager: FragmentManager,
-    private val myBoardsViewModel: MyBoardsViewModel,
+    private val boardViewModel: BoardViewModel,
     private val viewLifecycleOwner: LifecycleOwner,
 ) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {
@@ -73,16 +72,20 @@ class BoardAdapter(
         val taskListAdapter = TaskListAdapter()
         holder.categoryBinding.tasksRv.adapter = taskListAdapter
 
-        taskListAdapter.submitList(category.tasks)
+        // TODO submit tasks
+//        taskListAdapter.submitList(category.tasks)
 
-        myBoardsViewModel.observeCurrentBoard().observe(viewLifecycleOwner) { board ->
+        boardViewModel.observeCategories().observe(viewLifecycleOwner) { categories ->
             // TODO BUG - wrong firestoreId, using Board's ID
-            val updatedCategory = board.categories.find { it.firestoreId == category.firestoreId }
-            Log.d(TAG, "observeCurrentBoard category.name=${category.name}")
-            val tasks = updatedCategory?.tasks
-            tasks?.let {
-                taskListAdapter.submitList(it)
-            }
+//            val updatedCategory = board.categories.find { it.firestoreId == category.firestoreId }
+            Log.d(
+                TAG,
+                "boardViewModel.observeCategories().observe(viewLifecycleOwner) category.name=${category.name} categories=${categories}"
+            )
+//            val tasks = updatedCategory?.tasks
+//            tasks?.let {
+//                taskListAdapter.submitList(it)
+//            }
         }
 
         holder.categoryBinding.addTaskButton.setOnClickListener {

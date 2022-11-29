@@ -84,7 +84,6 @@ class MyBoardsFragment : Fragment() {
     }
 
     private fun navToBoard(boardFirestoreId: String, board_name: String) {
-        myBoardsViewModel.setCurrentBoard(boardFirestoreId)
         val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(boardFirestoreId, board_name)
         findNavController().navigate(action)
     }

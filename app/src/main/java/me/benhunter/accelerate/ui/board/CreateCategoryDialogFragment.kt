@@ -32,7 +32,8 @@ class CreateCategoryDialogFragment : DialogFragment() {
                     ) { dialog, id -> //
                         val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
-                            myBoardsViewModel.createCategoryInCurrentBoard(name)
+                            // TODO create category in boardViewModel
+//                            myBoardsViewModel.createCategoryInCurrentBoard(name)
                         } else {
                             val text = "Please put a name"
                             Toast
