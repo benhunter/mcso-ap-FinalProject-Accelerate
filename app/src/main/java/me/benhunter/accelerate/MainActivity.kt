@@ -2,6 +2,8 @@ package me.benhunter.accelerate
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -12,6 +14,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import me.benhunter.accelerate.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,6 +51,10 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        mainViewModel.observeEmail().observe(this){
+            val headerView: View = navView.getHeaderView(0)
+            headerView.findViewById<TextView>(R.id.nav_header_main_email_textView).text = it
+        }
 
     }
 
