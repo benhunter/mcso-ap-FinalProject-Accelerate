@@ -56,6 +56,11 @@ class MainActivity : AppCompatActivity() {
             headerView.findViewById<TextView>(R.id.nav_header_main_email_textView).text = it
         }
 
+        mainViewModel.observeDisplayName().observe(this){
+            val headerView: View = navView.getHeaderView(0)
+            headerView.findViewById<TextView>(R.id.nav_header_main_displayName_textView).text = it
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

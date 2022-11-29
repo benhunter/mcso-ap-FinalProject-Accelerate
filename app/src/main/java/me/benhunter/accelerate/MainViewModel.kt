@@ -9,10 +9,12 @@ class MainViewModel : ViewModel() {
 
     private var firebaseAuthLiveData = FirestoreAuthLiveData()
     private val email = MutableLiveData<String>()
+    private val displayName = MutableLiveData<String>()
 
     fun updateUser() {
         firebaseAuthLiveData.updateUser()
         email.postValue(firebaseAuthLiveData.getCurrentUser()?.email ?: "")
+        displayName.postValue(firebaseAuthLiveData.getCurrentUser()?.displayName ?: "")
     }
 
     fun getUser(): FirebaseUser? {
@@ -21,6 +23,10 @@ class MainViewModel : ViewModel() {
 
     fun observeEmail(): LiveData<String> {
         return email
+    }
+
+    fun observeDisplayName(): LiveData<String>{
+        return displayName
     }
 
     fun signOut() {
