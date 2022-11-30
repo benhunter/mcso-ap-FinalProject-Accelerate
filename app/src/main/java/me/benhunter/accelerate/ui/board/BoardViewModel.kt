@@ -57,7 +57,7 @@ class BoardViewModel : ViewModel() {
                 val categoriesResult = it.toObjects(Category::class.java)
 
                 Log.d(TAG, "fetchCategories posting categories")
-                categories.postValue(categoriesResult)
+                categories.postValue(categoriesResult.sortedBy { it.postition })
             }
             .addOnFailureListener {
                 Log.d(TAG, "fetchCategories query failed")
@@ -70,7 +70,8 @@ class BoardViewModel : ViewModel() {
         val firestoreId = db.collection(categoriesCollection).document().id
         val boardId = board.value?.firestoreId
             ?: throw RuntimeException("Cannot create Category without boardId.")
-        val category = Category(name, firestoreId, boardId)
+        val position = categories.value?.size ?: 0
+        val category = Category(name, firestoreId, boardId, position)
 
         db.collection(categoriesCollection).document(category.firestoreId).set(category)
             .addOnSuccessListener { fetchCategories() }

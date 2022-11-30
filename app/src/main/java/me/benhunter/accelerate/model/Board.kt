@@ -5,11 +5,10 @@ import com.google.firebase.firestore.DocumentId
 // TODO implement board members (self + sharing)
 class Board(
     val name: String = "",
-//    var categories: MutableList<Category> = listOf<Category>().toMutableList(), // TODO a list of Category IDs from Firestore?
     @DocumentId var firestoreId: String = "",
 //    var ownerName: String = "",
 //    var ownerUid: String = "",
-//    var uuid: String = "", // TODO remove?
+    val position: Int = 0
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -19,22 +18,16 @@ class Board(
         other as Board
 
         if (name != other.name) return false
-//        if (categories != other.categories) return false
         if (firestoreId != other.firestoreId) return false
-//        if (ownerName != other.ownerName) return false
-//        if (ownerUid != other.ownerUid) return false
-//        if (uuid != other.uuid) return false
+        if (position != other.position) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = name.hashCode()
-//        result = 31 * result + categories.hashCode()
         result = 31 * result + firestoreId.hashCode()
-//        result = 31 * result + ownerName.hashCode()
-//        result = 31 * result + ownerUid.hashCode()
-//        result = 31 * result + uuid.hashCode()
+        result = 31 * result + position
         return result
     }
 }

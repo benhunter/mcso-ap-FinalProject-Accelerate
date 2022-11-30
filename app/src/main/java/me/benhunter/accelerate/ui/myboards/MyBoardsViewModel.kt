@@ -32,9 +32,9 @@ class MyBoardsViewModel : ViewModel() {
         // add board record to firebase DB
         Log.d(TAG, "createBoard")
 
-        val board = Board(name)
-        board.firestoreId =
-            db.collection(boardsCollection).document().id // generate a new document ID
+        val boardFirestoreId = db.collection(boardsCollection).document().id // generate a new document ID
+        val position = myBoards.value?.size ?: 0
+        val board = Board(name, boardFirestoreId, position)
         db.collection(boardsCollection).document(board.firestoreId).set(board)
 
         fetchMyBoards()
@@ -45,12 +45,12 @@ class MyBoardsViewModel : ViewModel() {
 
         db.collection(boardsCollection).get().addOnSuccessListener { result ->
             Log.d(TAG, "fetchMyBoards db get().addOnSuccessListener")
-            Log.d(TAG, "fetchMyBoards result ${result.toString()}")
+            Log.d(TAG, "fetchMyBoards result $result")
             result.documents.forEach {
                 Log.d(TAG, "fetchMyBoards result.documents $it")
                 Log.d(TAG, "fetchMyBoards result.documents ${it.data}")
             }
-            myBoards.postValue(result.mapNotNull { it.toObject(Board::class.java) })
+            myBoards.postValue(result.mapNotNull { it.toObject(Board::class.java) }.sortedBy { it.position })
         }
     }
 
