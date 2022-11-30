@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.MainActivity
 import me.benhunter.accelerate.databinding.FragmentBoardBinding
 
@@ -42,7 +42,7 @@ class BoardFragment : Fragment() {
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
         val boardAdapter =
-            BoardAdapter(layoutInflater, parentFragmentManager, boardViewModel, viewLifecycleOwner)
+            BoardAdapter(layoutInflater, parentFragmentManager, boardViewModel, viewLifecycleOwner, ::navToTask)
         binding.boardRecyclerView.adapter = boardAdapter
 
         boardViewModel.observeBoard().observe(viewLifecycleOwner) {
@@ -65,5 +65,10 @@ class BoardFragment : Fragment() {
     private fun onClickCreateCategory(view: View) {
         val createCategoryDialogFragment = CreateCategoryDialogFragment()
         createCategoryDialogFragment.show(parentFragmentManager, "create_category")
+    }
+
+    private fun navToTask(taskId: String) {
+        val action = BoardFragmentDirections.actionBoardToTask(taskId)
+        findNavController().navigate(action)
     }
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.CategoryBinding
 import me.benhunter.accelerate.model.Category
+import me.benhunter.accelerate.model.Task
 
 // Board holds a List of Category. Category holds a List of Task.
 class BoardAdapter(
@@ -20,6 +21,7 @@ class BoardAdapter(
     private val fragmentManager: FragmentManager,
     private val boardViewModel: BoardViewModel,
     private val viewLifecycleOwner: LifecycleOwner,
+    val navToTask: (String) -> Unit,
 ) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {
 
@@ -69,13 +71,15 @@ class BoardAdapter(
         // Setup the RecyclerView for each list of Tasks
         holder.categoryBinding.tasksRv.layoutManager =
             LinearLayoutManager(holder.categoryBinding.root.context)
-        val taskListAdapter = TaskListAdapter()
+        val taskListAdapter = TaskListAdapter(navToTask)
         holder.categoryBinding.tasksRv.adapter = taskListAdapter
 
         boardViewModel.observeTasks().observe(viewLifecycleOwner) { tasks ->
             Log.d(TAG, "boardViewModel.observeTasks().observe category.name=${category.name}")
-            val tasksResult = tasks.filter { it.categoryId == category.firestoreId }
-            taskListAdapter.submitList(tasksResult)
+            val tasksFilteredByBoardAndSorted =
+                tasks.filter { it.categoryId == category.firestoreId }
+                    .sortedBy { task: Task -> task.position }
+            taskListAdapter.submitList(tasksFilteredByBoardAndSorted)
         }
 
         holder.categoryBinding.addTaskButton.setOnClickListener {
@@ -86,6 +90,13 @@ class BoardAdapter(
 
             val createTaskDialogFragment = CreateTaskDialogFragment(category)
             createTaskDialogFragment.show(fragmentManager, "create_task")
+        }
+
+        holder.categoryBinding.listNameTv.setOnClickListener {
+            Snackbar
+                .make(it, "Clicked category ${category.name} position ${category.postition}", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
         }
     }
 }

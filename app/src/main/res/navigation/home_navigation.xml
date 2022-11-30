@@ -14,8 +14,7 @@
             android:id="@+id/action_my_boards_to_board"
             app:destination="@id/nav_board"
             app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out">
-        </action>
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -26,14 +25,29 @@
 
     <fragment
         android:id="@+id/nav_board"
-        android:label="Board"
         android:name="me.benhunter.accelerate.ui.board.BoardFragment"
+        android:label="Board"
         tools:layout="@layout/board">
         <argument
             android:name="board_firestore_id"
             app:argType="string" />
         <argument
             android:name="board_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_board_to_task"
+            app:destination="@+id/nav_task"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_task"
+        android:name="me.benhunter.accelerate.ui.Task.TaskFragment"
+        android:label="Task"
+        tools:layout="@layout/fragment_task">
+        <argument
+            android:name="taskId"
             app:argType="string" />
     </fragment>
 </navigation>

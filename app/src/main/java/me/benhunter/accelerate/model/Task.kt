@@ -6,6 +6,7 @@ class Task(
     val name: String = "",
     @DocumentId val firestoreId: String = "",
     val categoryId: String = "",
+    val position: Int = 0,
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -17,6 +18,7 @@ class Task(
         if (name != other.name) return false
         if (firestoreId != other.firestoreId) return false
         if (categoryId != other.categoryId) return false
+        if (position != other.position) return false
 
         return true
     }
@@ -25,6 +27,7 @@ class Task(
         var result = name.hashCode()
         result = 31 * result + firestoreId.hashCode()
         result = 31 * result + categoryId.hashCode()
+        result = 31 * result + position
         return result
     }
 }

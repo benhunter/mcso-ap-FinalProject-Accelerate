@@ -57,7 +57,7 @@ class BoardViewModel : ViewModel() {
                 val categoriesResult = it.toObjects(Category::class.java)
 
                 Log.d(TAG, "fetchCategories posting categories")
-                categories.postValue(categoriesResult.sortedBy { it.postition })
+                categories.postValue(categoriesResult.sortedBy { category -> category.postition })
             }
             .addOnFailureListener {
                 Log.d(TAG, "fetchCategories query failed")
@@ -85,7 +85,9 @@ class BoardViewModel : ViewModel() {
         Log.d(TAG, "createTask name $name")
 
         val firestoreId = db.collection(taskCollection).document().id
-        val task = Task(name, firestoreId, categoryId)
+        val position =
+            tasks.value?.filter { task: Task -> task.categoryId == categoryId }?.size ?: 0
+        val task = Task(name, firestoreId, categoryId, position)
 
         db.collection(taskCollection).document(task.firestoreId).set(task)
             .addOnSuccessListener {
