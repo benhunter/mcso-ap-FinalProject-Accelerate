@@ -20,8 +20,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="create_a_board">Create a new Board</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
     <string name="create_a_category">Create a Category</string>

@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/nav_task"
-        android:name="me.benhunter.accelerate.ui.Task.TaskFragment"
+        android:name="me.benhunter.accelerate.ui.task.TaskFragment"
         android:label="Task"
         tools:layout="@layout/fragment_task">
         <argument
