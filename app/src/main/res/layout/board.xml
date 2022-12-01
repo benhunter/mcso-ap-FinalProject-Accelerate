@@ -2,7 +2,10 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/board_name_card"
+    app:cardBackgroundColor="@color/teal_700"
+    android:layout_marginHorizontal="10dp"
     android:layout_marginVertical="5dp">
 
     <TextView
