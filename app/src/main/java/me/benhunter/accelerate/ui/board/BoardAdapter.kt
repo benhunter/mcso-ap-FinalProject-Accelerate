@@ -22,6 +22,7 @@ class BoardAdapter(
     private val boardViewModel: BoardViewModel,
     private val viewLifecycleOwner: LifecycleOwner,
     val navToTask: (String) -> Unit,
+    val navToCategory: (String) -> Unit,
 ) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {
 
@@ -97,6 +98,7 @@ class BoardAdapter(
                 .make(it, "Clicked category ${category.name} position ${category.postition}", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show()
+            navToCategory(category.firestoreId)
         }
     }
 }

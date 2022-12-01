@@ -42,7 +42,14 @@ class BoardFragment : Fragment() {
         (requireActivity() as MainActivity).supportActionBar?.title = args.boardName
 
         val boardAdapter =
-            BoardAdapter(layoutInflater, parentFragmentManager, boardViewModel, viewLifecycleOwner, ::navToTask)
+            BoardAdapter(
+                layoutInflater,
+                parentFragmentManager,
+                boardViewModel,
+                viewLifecycleOwner,
+                ::navToTask,
+                ::navToCategory
+            )
         binding.boardRecyclerView.adapter = boardAdapter
 
         boardViewModel.observeBoard().observe(viewLifecycleOwner) {
@@ -69,6 +76,11 @@ class BoardFragment : Fragment() {
 
     private fun navToTask(taskId: String) {
         val action = BoardFragmentDirections.actionBoardToTask(taskId)
+        findNavController().navigate(action)
+    }
+
+    private fun navToCategory(categoryId: String) {
+        val action = BoardFragmentDirections.actionBoardToCategory(categoryId)
         findNavController().navigate(action)
     }
 }

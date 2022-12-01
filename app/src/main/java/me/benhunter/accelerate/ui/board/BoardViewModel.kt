@@ -15,6 +15,7 @@ class BoardViewModel : ViewModel() {
     private val boardsCollection = "boards" // TODO use same string as MyBoardsViewModel
     private val categoriesCollection = "categories"
     private val taskCollection = "tasks"
+
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val board = MutableLiveData<Board>()

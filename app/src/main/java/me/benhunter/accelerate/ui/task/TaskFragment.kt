@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import me.benhunter.accelerate.databinding.FragmentTaskBinding
 
@@ -22,7 +23,7 @@ class TaskFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d(TAG, "onCreateView")
 
         // Inflate the layout for this fragment
@@ -35,6 +36,26 @@ class TaskFragment : Fragment() {
 
         taskViewModel.setTask(args.taskId)
 
-        binding.taskNameTv.text = args.taskId
+        taskViewModel.observeTask().observe(viewLifecycleOwner) {
+            if (it == null) {
+                binding.taskNameEdittext.setText("")
+            } else {
+                binding.taskNameEdittext.setText(it.name)
+            }
+        }
+
+        binding.taskSaveButton.setOnClickListener {
+            taskViewModel.saveName(binding.taskNameEdittext.text.toString())
+            findNavController().popBackStack()
+        }
+
+        binding.taskCancelButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.taskDeleteButton.setOnClickListener {
+            taskViewModel.delete()
+            findNavController().popBackStack()
+        }
     }
 }
