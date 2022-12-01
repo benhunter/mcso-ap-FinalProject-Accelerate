@@ -21,8 +21,8 @@ class TaskViewModel : ViewModel() {
 
         db.collection(taskCollection).document(taskId).get()
             .addOnSuccessListener {
-                val taskFromFirestore = it.toObject(Task::class.java)
-                task.postValue(taskFromFirestore)
+                val task = it.toObject(Task::class.java)
+                this.task.postValue(task)
             }
     }
 
@@ -41,10 +41,25 @@ class TaskViewModel : ViewModel() {
     }
 
     fun delete() {
+        val position = task.value?.position ?: 0
+
         db.collection(taskCollection).document(taskId).delete()
             .addOnSuccessListener {
                 task.postValue(null)
-
             }
+
+        // Update position for other tasks
+        db.collection(taskCollection).get().addOnSuccessListener { querySnapshot ->
+            val batch = db.batch()
+            querySnapshot.forEach {
+                val task = it.toObject(Task::class.java)
+                if (task.position > position) {
+                    // decrement and update
+                    task.position -= 1
+                    batch.set(it.reference, task)
+                }
+            }
+            batch.commit()
+        }
     }
 }

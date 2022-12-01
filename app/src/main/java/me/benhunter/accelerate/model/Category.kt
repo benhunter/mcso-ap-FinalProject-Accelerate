@@ -6,7 +6,7 @@ class Category(
     val name: String = "",
     @DocumentId val firestoreId: String = "",
     val boardId: String = "",
-    val postition: Int = 0
+    var position: Int = 0
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -18,7 +18,7 @@ class Category(
         if (name != other.name) return false
         if (firestoreId != other.firestoreId) return false
         if (boardId != other.boardId) return false
-        if (postition != other.postition) return false
+        if (position != other.position) return false
 
         return true
     }
@@ -27,7 +27,7 @@ class Category(
         var result = name.hashCode()
         result = 31 * result + firestoreId.hashCode()
         result = 31 * result + boardId.hashCode()
-        result = 31 * result + postition
+        result = 31 * result + position
         return result
     }
 }

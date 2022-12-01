@@ -95,7 +95,7 @@ class BoardAdapter(
 
         holder.categoryBinding.listNameTv.setOnClickListener {
             Snackbar
-                .make(it, "Clicked category ${category.name} position ${category.postition}", Snackbar.LENGTH_LONG)
+                .make(it, "Clicked category ${category.name} position ${category.position}", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show()
             navToCategory(category.firestoreId)

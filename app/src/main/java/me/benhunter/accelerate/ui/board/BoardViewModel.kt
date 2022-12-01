@@ -58,7 +58,7 @@ class BoardViewModel : ViewModel() {
                 val categoriesResult = it.toObjects(Category::class.java)
 
                 Log.d(TAG, "fetchCategories posting categories")
-                categories.postValue(categoriesResult.sortedBy { category -> category.postition })
+                categories.postValue(categoriesResult.sortedBy { category -> category.position })
             }
             .addOnFailureListener {
                 Log.d(TAG, "fetchCategories query failed")
