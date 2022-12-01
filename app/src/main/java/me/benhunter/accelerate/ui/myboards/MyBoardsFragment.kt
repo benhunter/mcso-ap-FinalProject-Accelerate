@@ -53,7 +53,7 @@ class MyBoardsFragment : Fragment() {
             Log.d(TAG, "observeMyBoards")
             myBoardsAdapter.submitList(it)
 
-            // TODO show "create a board" when empty
+            // show "create a board" prompt when empty
             if (it.isEmpty()) {
                 binding.myBoardsRecyclerView.visibility = View.INVISIBLE
                 binding.myBoardsPromptToCreateCardview.visibility = View.VISIBLE
@@ -66,6 +66,11 @@ class MyBoardsFragment : Fragment() {
         myBoardsViewModel.fetchMyBoards()
 
         Log.d(TAG, "auth ${mainViewModel.getUser()}")
+
+        binding.myBoardsSwiperefresh.setOnRefreshListener {
+            myBoardsViewModel.fetchMyBoards()
+            binding.myBoardsSwiperefresh.isRefreshing = false
+        }
     }
 
     private fun onClickCreateBoard(view: View) {
