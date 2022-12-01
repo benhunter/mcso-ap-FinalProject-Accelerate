@@ -12,6 +12,24 @@
         android:paddingVertical="10dp"
         tools:context=".ui.myboards.MyBoardsFragment">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/my_boards_prompt_to_create_cardview"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/you_don_t_have_any_boards_yet_create_one" />
+
+        </androidx.cardview.widget.CardView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_boards_recycler_view"
             android:layout_width="match_parent"
@@ -28,10 +46,10 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
+        android:contentDescription="@string/create_a_board"
         android:tooltipText="Create a Board"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_library_add_24"
-        android:contentDescription="@string/create_a_board" />
+        app:srcCompat="@drawable/ic_baseline_library_add_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

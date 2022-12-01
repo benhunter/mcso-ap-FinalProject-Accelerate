@@ -36,22 +36,17 @@ class BoardViewModel : ViewModel() {
         }
     }
 
-    fun resetCategories() {
-        Log.d(TAG, "resetCategories")
-        categories.postValue(listOf())
-    }
-
     fun observeCategories(): LiveData<List<Category>> {
         return categories
     }
 
-    // TODO filter to boards of current user
     fun fetchCategories() {
         Log.d(TAG, "fetchCategories")
 
-        // Get all categories, then filter in BoardAdapter
-        db.collection(categoriesCollection)
-            .get()
+        val boardId = board.value?.firestoreId
+            ?: throw RuntimeException("Cannot fetch Categories without boardId.")
+
+        db.collection(categoriesCollection).whereEqualTo("boardId", boardId).get()
             .addOnSuccessListener {
                 Log.d(TAG, "fetchCategories query success")
 
@@ -59,8 +54,7 @@ class BoardViewModel : ViewModel() {
 
                 Log.d(TAG, "fetchCategories posting categories")
                 categories.postValue(categoriesResult.sortedBy { category -> category.position })
-            }
-            .addOnFailureListener {
+            }.addOnFailureListener {
                 Log.d(TAG, "fetchCategories query failed")
             }
     }
@@ -90,31 +84,49 @@ class BoardViewModel : ViewModel() {
             tasks.value?.filter { task: Task -> task.categoryId == categoryId }?.size ?: 0
         val task = Task(name, firestoreId, categoryId, position)
 
-        db.collection(taskCollection).document(task.firestoreId).set(task)
-            .addOnSuccessListener {
-                fetchTasks()
-            }
+        db.collection(taskCollection).document(task.firestoreId).set(task).addOnSuccessListener {
+            fetchTasks()
+        }
     }
 
     fun fetchTasks() {
         Log.d(TAG, "fetchTasks")
 
-        db.collection(taskCollection)
-            .get()
-            .addOnSuccessListener {
-                Log.d(TAG, "fetchTasks query success")
+        db.collection(taskCollection).get().addOnSuccessListener {
+            Log.d(TAG, "fetchTasks query success")
 
-                val taskResult = it.toObjects(Task::class.java)
+            val taskResult = it.toObjects(Task::class.java)
 
-                Log.d(TAG, "fetchTasks posting tasks")
-                tasks.postValue(taskResult)
-            }
-            .addOnFailureListener {
-                Log.d(TAG, "fetchTasks query failed")
-            }
+            Log.d(TAG, "fetchTasks posting tasks")
+            tasks.postValue(taskResult)
+        }.addOnFailureListener {
+            Log.d(TAG, "fetchTasks query failed")
+        }
     }
 
     fun observeTasks(): LiveData<List<Task>> {
         return tasks
+    }
+
+    fun shareBoard(email: String) {
+        val currentBoard = board.value ?: return
+
+        val memberEmails = currentBoard.memberEmails.toMutableList()
+
+        if (email in memberEmails) return
+
+        val newMemberEmails = currentBoard.memberEmails.toMutableList()
+        newMemberEmails.add(email)
+        currentBoard.memberEmails = newMemberEmails
+
+        db.collection(boardsCollection).document(currentBoard.firestoreId).set(currentBoard)
+            .addOnSuccessListener {
+                Log.d(
+                    TAG,
+                    "shareBoard ${board.value?.firestoreId} to email $email success. Posting value."
+                )
+
+                board.postValue(currentBoard)
+            }
     }
 }

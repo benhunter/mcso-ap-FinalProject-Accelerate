@@ -2,13 +2,11 @@ package me.benhunter.accelerate.model
 
 import com.google.firebase.firestore.DocumentId
 
-// TODO implement board members (self + sharing)
 class Board(
     val name: String = "",
     @DocumentId var firestoreId: String = "",
-//    var ownerName: String = "",
-//    var ownerUid: String = "",
-    val position: Int = 0
+    val position: Int = 0,
+    var memberEmails: List<String> = listOf(),
 ) {
 
     override fun equals(other: Any?): Boolean {

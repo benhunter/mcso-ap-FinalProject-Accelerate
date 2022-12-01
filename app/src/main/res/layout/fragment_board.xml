@@ -20,7 +20,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--    TODO fix theme-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/share_board_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="80dp"
+        android:contentDescription="@string/share_this_board"
+        android:tooltipText="@string/share_this_board"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_anchor="@id/create_category_fab"
+        app:layout_anchorGravity="top"
+        app:srcCompat="@drawable/ic_baseline_person_add_24" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_category_fab"
         android:layout_width="wrap_content"

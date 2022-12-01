@@ -13,18 +13,23 @@ class MyBoardsViewModel : ViewModel() {
     private val TAG = javaClass.simpleName
     private val boardsCollection = "boards"
 
+    private var firebaseAuthLiveData = FirestoreAuthLiveData()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val myBoards = MutableLiveData<List<Board>>()
 
+    private var currentUserEmail: String? = null
+
     init {
         // Update the boards when user logs in.
         // TODO could try to consolidate with MainViewModel to have FirestoreAuth in one place
-        FirestoreAuthLiveData().observeForever {
+        firebaseAuthLiveData.observeForever {
             Log.d(TAG, "FirestoreAuthLiveData $it")
             if (it != null) {
                 fetchMyBoards()
             }
+
+            currentUserEmail = it?.email
         }
     }
 
@@ -32,9 +37,11 @@ class MyBoardsViewModel : ViewModel() {
         // add board record to firebase DB
         Log.d(TAG, "createBoard")
 
-        val boardFirestoreId = db.collection(boardsCollection).document().id // generate a new document ID
+        val boardFirestoreId =
+            db.collection(boardsCollection).document().id // generate a new document ID
         val position = myBoards.value?.size ?: 0
-        val board = Board(name, boardFirestoreId, position)
+        val memberEmails = listOf(currentUserEmail ?: "")
+        val board = Board(name, boardFirestoreId, position, memberEmails)
         db.collection(boardsCollection).document(board.firestoreId).set(board)
 
         fetchMyBoards()
@@ -43,14 +50,21 @@ class MyBoardsViewModel : ViewModel() {
     fun fetchMyBoards() {
         Log.d(TAG, "fetchMyBoards")
 
-        db.collection(boardsCollection).get().addOnSuccessListener { result ->
-            Log.d(TAG, "fetchMyBoards db get().addOnSuccessListener")
-            Log.d(TAG, "fetchMyBoards result $result")
-            result.documents.forEach {
-                Log.d(TAG, "fetchMyBoards result.documents $it")
-                Log.d(TAG, "fetchMyBoards result.documents ${it.data}")
-            }
-            myBoards.postValue(result.mapNotNull { it.toObject(Board::class.java) }.sortedBy { it.position })
+        firebaseAuthLiveData.getCurrentUser()?.email?.let { currentUserEmail ->
+            db
+                .collection(boardsCollection)
+                .whereArrayContains("memberEmails", currentUserEmail)
+                .get()
+                .addOnSuccessListener { result ->
+                    Log.d(TAG, "fetchMyBoards db get().addOnSuccessListener")
+                    Log.d(TAG, "fetchMyBoards result $result")
+                    result.documents.forEach {
+                        Log.d(TAG, "fetchMyBoards result.documents $it")
+                        Log.d(TAG, "fetchMyBoards result.documents ${it.data}")
+                    }
+                    myBoards.postValue(result.mapNotNull { it.toObject(Board::class.java) }
+                        .sortedBy { it.position })
+                }
         }
     }
 

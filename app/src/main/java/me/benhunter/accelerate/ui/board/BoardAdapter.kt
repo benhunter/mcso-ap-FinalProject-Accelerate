@@ -78,7 +78,8 @@ class BoardAdapter(
         boardViewModel.observeTasks().observe(viewLifecycleOwner) { tasks ->
             Log.d(TAG, "boardViewModel.observeTasks().observe category.name=${category.name}")
             val tasksFilteredByBoardAndSorted =
-                tasks.filter { it.categoryId == category.firestoreId }
+                tasks
+                    .filter { it.categoryId == category.firestoreId }
                     .sortedBy { task: Task -> task.position }
             taskListAdapter.submitList(tasksFilteredByBoardAndSorted)
         }

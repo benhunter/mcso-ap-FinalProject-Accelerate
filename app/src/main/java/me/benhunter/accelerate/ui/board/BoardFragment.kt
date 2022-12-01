@@ -65,11 +65,17 @@ class BoardFragment : Fragment() {
         }
 
         binding.createCategoryFab.setOnClickListener(::onClickCreateCategory)
+        binding.shareBoardFab.setOnClickListener(::onClickShareBoard)
     }
 
     private fun onClickCreateCategory(view: View) {
         val createCategoryDialogFragment = CreateCategoryDialogFragment()
         createCategoryDialogFragment.show(parentFragmentManager, "create_category")
+    }
+
+    private fun onClickShareBoard(view: View) {
+        val shareBoardDialogFragment = ShareBoardDialogFragment()
+        shareBoardDialogFragment.show(parentFragmentManager, "share_board")
     }
 
     private fun navToTask(taskId: String, categoryId: String) {

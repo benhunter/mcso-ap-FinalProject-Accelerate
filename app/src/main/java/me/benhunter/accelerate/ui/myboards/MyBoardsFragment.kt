@@ -52,6 +52,15 @@ class MyBoardsFragment : Fragment() {
         myBoardsViewModel.observeMyBoards().observe(this.viewLifecycleOwner) {
             Log.d(TAG, "observeMyBoards")
             myBoardsAdapter.submitList(it)
+
+            // TODO show "create a board" when empty
+            if (it.isEmpty()) {
+                binding.myBoardsRecyclerView.visibility = View.INVISIBLE
+                binding.myBoardsPromptToCreateCardview.visibility = View.VISIBLE
+            } else {
+                binding.myBoardsRecyclerView.visibility = View.VISIBLE
+                binding.myBoardsPromptToCreateCardview.visibility = View.INVISIBLE
+            }
         }
 
         myBoardsViewModel.fetchMyBoards()
