@@ -11,12 +11,37 @@
         android:layout_height="match_parent"
         tools:context=".ui.board.BoardFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/board_recycler_view"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/boards_prompt_to_create_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/you_don_t_have_any_categories_yet_create_one" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/board_swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/board_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -29,10 +54,10 @@
         android:layout_marginBottom="80dp"
         android:contentDescription="@string/share_this_board"
         android:tooltipText="@string/share_this_board"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_anchor="@id/create_category_fab"
         app:layout_anchorGravity="top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_person_add_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

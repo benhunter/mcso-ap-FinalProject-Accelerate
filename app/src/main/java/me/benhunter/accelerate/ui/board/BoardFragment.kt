@@ -62,10 +62,24 @@ class BoardFragment : Fragment() {
             // Prefer to filter in BoardViewModel
             val categoriesForCurrentBoard = it.filter { it.boardId == args.boardFirestoreId }
             boardAdapter.submitList(categoriesForCurrentBoard)
+
+            // show "create a category" prompt when empty
+            if (it.isEmpty()){
+                binding.boardRecyclerView.visibility = View.INVISIBLE
+                binding.boardsPromptToCreateCardview.visibility = View.VISIBLE
+            } else {
+                binding.boardRecyclerView.visibility = View.VISIBLE
+                binding.boardsPromptToCreateCardview.visibility = View.INVISIBLE
+            }
         }
 
         binding.createCategoryFab.setOnClickListener(::onClickCreateCategory)
         binding.shareBoardFab.setOnClickListener(::onClickShareBoard)
+
+        binding.boardSwiperefresh.setOnRefreshListener {
+            boardViewModel.fetchBoardCategoriesAndTasks()
+            binding.boardSwiperefresh.isRefreshing = false
+        }
     }
 
     private fun onClickCreateCategory(view: View) {

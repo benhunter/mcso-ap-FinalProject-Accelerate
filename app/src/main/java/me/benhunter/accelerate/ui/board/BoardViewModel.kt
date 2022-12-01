@@ -19,6 +19,7 @@ class BoardViewModel : ViewModel() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val board = MutableLiveData<Board>()
+    private var boardFirestoreId: String? = null
     private val categories = MutableLiveData<List<Category>>()
     private val tasks = MutableLiveData<List<Task>>()
 
@@ -26,14 +27,23 @@ class BoardViewModel : ViewModel() {
     fun setBoard(boardFirestoreId: String) {
         Log.d(TAG, "setBoard get $boardFirestoreId")
 
-        db.collection(boardsCollection).document(boardFirestoreId).get().addOnSuccessListener {
-            Log.d(TAG, "setBoard get $boardFirestoreId success. Posting value.")
+        this.boardFirestoreId = boardFirestoreId
 
-            val boardResult = it.toObject(Board::class.java)
-            boardResult?.let {
-                board.postValue(it)
+        fetchBoardCategoriesAndTasks()
+    }
+
+    fun fetchBoard() {
+        if (boardFirestoreId == null) return
+
+        db.collection(boardsCollection).document(boardFirestoreId!!).get()
+            .addOnSuccessListener { documentSnapshot ->
+                Log.d(TAG, "fetchBoard get $boardFirestoreId success. Posting value.")
+
+                val boardResult = documentSnapshot.toObject(Board::class.java)
+                boardResult?.let {
+                    board.postValue(it)
+                }
             }
-        }
     }
 
     fun observeCategories(): LiveData<List<Category>> {
@@ -43,10 +53,9 @@ class BoardViewModel : ViewModel() {
     fun fetchCategories() {
         Log.d(TAG, "fetchCategories")
 
-        val boardId = board.value?.firestoreId
-            ?: throw RuntimeException("Cannot fetch Categories without boardId.")
+        if (boardFirestoreId == null) return
 
-        db.collection(categoriesCollection).whereEqualTo("boardId", boardId).get()
+        db.collection(categoriesCollection).whereEqualTo("boardId", boardFirestoreId).get()
             .addOnSuccessListener {
                 Log.d(TAG, "fetchCategories query success")
 
@@ -128,5 +137,11 @@ class BoardViewModel : ViewModel() {
 
                 board.postValue(currentBoard)
             }
+    }
+
+    fun fetchBoardCategoriesAndTasks() {
+        fetchBoard()
+        fetchCategories()
+        fetchTasks()
     }
 }

@@ -32,4 +32,5 @@
     <string name="share_this_board">Share this Board</string>
     <string name="share">SHARE</string>
     <string name="you_don_t_have_any_boards_yet_create_one">You don\'t have any Boards yet. Create one!</string>
+    <string name="you_don_t_have_any_categories_yet_create_one">You don\'t have any Categories yet. Create one!</string>
 </resources>
