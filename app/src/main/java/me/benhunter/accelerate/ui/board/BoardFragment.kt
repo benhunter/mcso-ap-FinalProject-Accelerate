@@ -21,8 +21,6 @@ class BoardFragment : Fragment() {
     private val args: BoardFragmentArgs by navArgs()
 
     private val boardViewModel: BoardViewModel by activityViewModels()
-    // sharing ViewModel causes old data to show for a moment while current board loads - unless we load the whole collection
-    // private val boardViewModel = BoardViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -74,8 +72,8 @@ class BoardFragment : Fragment() {
         createCategoryDialogFragment.show(parentFragmentManager, "create_category")
     }
 
-    private fun navToTask(taskId: String) {
-        val action = BoardFragmentDirections.actionBoardToTask(taskId)
+    private fun navToTask(taskId: String, categoryId: String) {
+        val action = BoardFragmentDirections.actionBoardToTask(taskId, categoryId)
         findNavController().navigate(action)
     }
 

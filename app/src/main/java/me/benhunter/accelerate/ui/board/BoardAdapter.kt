@@ -21,7 +21,7 @@ class BoardAdapter(
     private val fragmentManager: FragmentManager,
     private val boardViewModel: BoardViewModel,
     private val viewLifecycleOwner: LifecycleOwner,
-    val navToTask: (String) -> Unit,
+    private val navToTask: (String, String) -> Unit,
     val navToCategory: (String) -> Unit,
 ) :
     ListAdapter<Category, BoardAdapter.ViewHolder>(Diff()) {

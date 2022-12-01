@@ -3,16 +3,14 @@ package me.benhunter.accelerate.ui.board
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.TaskBinding
 import me.benhunter.accelerate.model.Task
-import me.benhunter.accelerate.ui.myboards.MyBoardsFragmentDirections
 
-class TaskListAdapter(val navToTask: (String) -> Unit) : ListAdapter<Task, TaskListAdapter.ViewHolder>(Diff()) {
+class TaskListAdapter(val navToTask: (String, String) -> Unit) : ListAdapter<Task, TaskListAdapter.ViewHolder>(Diff()) {
 
     inner class ViewHolder(val taskBinding: TaskBinding) :
         RecyclerView.ViewHolder(taskBinding.root) {
@@ -48,7 +46,7 @@ class TaskListAdapter(val navToTask: (String) -> Unit) : ListAdapter<Task, TaskL
                 .setAction("Action", null)
                 .show()
 
-            navToTask(task.firestoreId)
+            navToTask(task.firestoreId, task.categoryId)
         }
     }
 }

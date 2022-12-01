@@ -30,9 +30,9 @@ class TaskViewModel : ViewModel() {
         return task
     }
 
-    fun saveName(name: String) {
+    fun saveNameAndCategory(name: String, categoryId: String) {
         task.value?.let {
-            val updatedTask = Task(name, it.firestoreId, it.categoryId, it.position)
+            val updatedTask = Task(name, it.firestoreId, categoryId, it.position)
             db.collection(taskCollection).document(taskId).set(updatedTask)
                 .addOnSuccessListener {
                     task.postValue(updatedTask)
