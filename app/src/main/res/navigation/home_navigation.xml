@@ -9,7 +9,6 @@
         android:name="me.benhunter.accelerate.myboards.MyBoardsFragment"
         android:label="@string/menu_my_boards"
         tools:layout="@layout/fragment_board">
-        <!--    TODO update animation?-->
         <action
             android:id="@+id/action_my_boards_to_board"
             app:destination="@id/nav_board"
