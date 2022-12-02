@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.category
+package me.benhunter.accelerate.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

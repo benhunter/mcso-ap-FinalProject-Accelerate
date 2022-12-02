@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.board
+package me.benhunter.accelerate.board
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.CategoryBinding
 import me.benhunter.accelerate.model.Category
@@ -73,7 +71,9 @@ class BoardAdapter(
         holder.categoryBinding.tasksRv.layoutManager =
             LinearLayoutManager(holder.categoryBinding.root.context)
         val taskListAdapter = TaskListAdapter(navToTask)
+        initTouchHelper(category, taskListAdapter, holder).attachToRecyclerView(holder.categoryBinding.tasksRv)
         holder.categoryBinding.tasksRv.adapter = taskListAdapter
+
 
         boardViewModel.observeTasks().observe(viewLifecycleOwner) { tasks ->
             Log.d(TAG, "boardViewModel.observeTasks().observe category.name=${category.name}")
@@ -102,4 +102,40 @@ class BoardAdapter(
             navToCategory(category.firestoreId)
         }
     }
+
+    private fun initTouchHelper(
+        category: Category,
+        taskListAdapter: TaskListAdapter,
+        holder: ViewHolder
+    ): ItemTouchHelper {
+        val simpleItemTouchCallback =
+            object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, ItemTouchHelper.START)
+            {
+                override fun onMove(recyclerView: RecyclerView,
+                                    viewHolder: RecyclerView.ViewHolder,
+                                    target: RecyclerView.ViewHolder): Boolean {
+                    // TODO
+                    Snackbar
+                        .make(holder.itemView, "ItemTouchHelp onMove", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null)
+                        .show()
+
+                    val from = viewHolder.adapterPosition
+                    val to = target.adapterPosition
+
+                    boardViewModel.moveTask(from, to, category.firestoreId)
+                    // TODO may need adapter.moveItem? should be from observer!
+
+                    taskListAdapter.notifyItemMoved(from, to)
+
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    return
+                }
+            }
+        return ItemTouchHelper(simpleItemTouchCallback)
+    }
+
 }

@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.board
+package me.benhunter.accelerate.board
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -143,5 +143,38 @@ class BoardViewModel : ViewModel() {
         fetchBoard()
         fetchCategories()
         fetchTasks()
+    }
+
+    fun moveTask(fromPosition: Int, toPosition: Int, categoryId: String) {
+        tasks.value?.let { taskList ->
+//            val taskToUpdate =
+//                taskList.find { it.categoryId == categoryId && it.position == fromPosition }
+//            val updatedTask = Task(
+//                taskToUpdate!!.name,
+//                taskToUpdate.firestoreId,
+//                taskToUpdate.categoryId,
+//                toPosition
+//            )
+
+            // Calculate all the new positions in the Category
+            val tasksInCategorySorted =
+                taskList.filter { it.categoryId == categoryId }.sortedBy { it.position }
+                    .toMutableList()
+            val taskMoved = tasksInCategorySorted.removeAt(fromPosition)
+            tasksInCategorySorted.add(toPosition, taskMoved)
+            tasksInCategorySorted.forEachIndexed { index, task -> task.position = index }
+
+            db.collection(taskCollection).whereEqualTo("categoryId", categoryId).get()
+                .addOnSuccessListener { querySnapshot ->
+                    val batch = db.batch()
+                    querySnapshot.forEach {
+                        val task = it.toObject(Task::class.java)
+                        task.position =
+                            (tasksInCategorySorted.find { taskUpdated -> taskUpdated.firestoreId == task.firestoreId })!!.position
+                        batch.set(it.reference, task)
+                    }
+                    batch.commit()
+                }
+        }
     }
 }

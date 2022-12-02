@@ -1,16 +1,19 @@
-package me.benhunter.accelerate.ui.board
+package me.benhunter.accelerate.board
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.TaskBinding
 import me.benhunter.accelerate.model.Task
 
-class TaskListAdapter(val navToTask: (String, String) -> Unit) : ListAdapter<Task, TaskListAdapter.ViewHolder>(Diff()) {
+class TaskListAdapter(val navToTask: (String, String) -> Unit) : ListAdapter<Task, TaskListAdapter.ViewHolder>(
+    Diff()
+) {
 
     inner class ViewHolder(val taskBinding: TaskBinding) :
         RecyclerView.ViewHolder(taskBinding.root) {
@@ -48,5 +51,7 @@ class TaskListAdapter(val navToTask: (String, String) -> Unit) : ListAdapter<Tas
 
             navToTask(task.firestoreId, task.categoryId)
         }
+
+
     }
 }

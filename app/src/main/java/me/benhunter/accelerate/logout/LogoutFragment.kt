@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.logout
+package me.benhunter.accelerate.logout
 
 import android.os.Bundle
 import android.view.LayoutInflater

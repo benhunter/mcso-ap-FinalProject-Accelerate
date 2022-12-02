@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.task
+package me.benhunter.accelerate.task
 
 import android.os.Bundle
 import android.util.Log
@@ -11,15 +11,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import me.benhunter.accelerate.databinding.FragmentTaskBinding
-import me.benhunter.accelerate.ui.board.BoardViewModel
-import me.benhunter.accelerate.ui.category.CategoryViewModel
+import me.benhunter.accelerate.board.BoardViewModel
+import me.benhunter.accelerate.category.CategoryViewModel
 
 class TaskFragment : Fragment() {
     private val TAG = javaClass.simpleName
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
 
-    private val args: TaskFragmentArgs by navArgs()
+    private val args: me.benhunter.accelerate.task.TaskFragmentArgs by navArgs()
 
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val categoryViewModel: CategoryViewModel by activityViewModels()

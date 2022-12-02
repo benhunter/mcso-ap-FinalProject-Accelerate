@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/nav_my_boards"
-        android:name="me.benhunter.accelerate.ui.myboards.MyBoardsFragment"
+        android:name="me.benhunter.accelerate.myboards.MyBoardsFragment"
         android:label="@string/menu_my_boards"
         tools:layout="@layout/fragment_board">
         <!--    TODO update animation?-->
@@ -19,13 +19,13 @@
 
     <fragment
         android:id="@+id/nav_logout"
-        android:name="me.benhunter.accelerate.ui.logout.LogoutFragment"
+        android:name="me.benhunter.accelerate.logout.LogoutFragment"
         android:label="Logout"
         tools:layout="@layout/fragment_logout" />
 
     <fragment
         android:id="@+id/nav_board"
-        android:name="me.benhunter.accelerate.ui.board.BoardFragment"
+        android:name="me.benhunter.accelerate.board.BoardFragment"
         android:label="Board"
         tools:layout="@layout/board">
         <argument
@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/nav_task"
-        android:name="me.benhunter.accelerate.ui.task.TaskFragment"
+        android:name="me.benhunter.accelerate.task.TaskFragment"
         android:label="Task"
         tools:layout="@layout/fragment_task">
         <argument
@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/nav_category"
-        android:name="me.benhunter.accelerate.ui.category.CategoryFragment"
+        android:name="me.benhunter.accelerate.category.CategoryFragment"
         android:label="Category"
         tools:layout="@layout/fragment_category">
         <argument

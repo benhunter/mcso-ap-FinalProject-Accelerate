@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.board
+package me.benhunter.accelerate.myboards
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import me.benhunter.accelerate.databinding.BoardBinding
 import me.benhunter.accelerate.model.Board
 
@@ -38,12 +37,12 @@ class MyBoardsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyBoardsAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val boardBinding = BoardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(boardBinding)
     }
 
-    override fun onBindViewHolder(holder: MyBoardsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val board = getItem(position)
         holder.boardBinding.boardNameTv.text = board.name
         holder.boardBinding.boardNameCard.setOnClickListener {

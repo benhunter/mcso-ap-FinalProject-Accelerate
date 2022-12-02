@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.myboards
+package me.benhunter.accelerate.myboards
 
 import android.app.Activity
 import android.os.Bundle
@@ -12,9 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import me.benhunter.accelerate.AuthInit
 import me.benhunter.accelerate.MainViewModel
+import me.benhunter.accelerate.board.CreateBoardDialogFragment
 import me.benhunter.accelerate.databinding.FragmentMyBoardsBinding
-import me.benhunter.accelerate.ui.board.CreateBoardDialogFragment
-import me.benhunter.accelerate.ui.board.MyBoardsAdapter
 
 class MyBoardsFragment : Fragment() {
 
@@ -98,7 +97,11 @@ class MyBoardsFragment : Fragment() {
     }
 
     private fun navToBoard(boardFirestoreId: String, board_name: String) {
-        val action = MyBoardsFragmentDirections.actionMyBoardsToBoard(boardFirestoreId, board_name)
+        val action =
+            MyBoardsFragmentDirections.actionMyBoardsToBoard(
+                boardFirestoreId,
+                board_name
+            )
         findNavController().navigate(action)
     }
 }

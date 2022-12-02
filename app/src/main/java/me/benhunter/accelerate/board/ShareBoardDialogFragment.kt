@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.board
+package me.benhunter.accelerate.board
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -8,32 +8,31 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import me.benhunter.accelerate.R
-import me.benhunter.accelerate.databinding.FragmentCreateNamedItemDialogBinding
-import me.benhunter.accelerate.ui.myboards.MyBoardsViewModel
+import me.benhunter.accelerate.databinding.FragmentShareBoardDialogBinding
 
-class CreateBoardDialogFragment : DialogFragment() {
+class ShareBoardDialogFragment : DialogFragment() {
 
-    private val myBoardsViewModel: MyBoardsViewModel by activityViewModels()
+    private val boardViewModel: BoardViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
 
             val inflater = requireActivity().layoutInflater
-            val binding = FragmentCreateNamedItemDialogBinding.inflate(inflater)
+            val binding = FragmentShareBoardDialogBinding.inflate(inflater)
             val view = binding.root
             val builder = AlertDialog.Builder(it)
 
             val alertDialog =
-                builder.setMessage(R.string.create_a_board)
+                builder.setMessage("Share this board")
 
                     .setPositiveButton(
-                        R.string.create
-                    ) { dialog, id -> //
-                        val name = binding.createNameEdittext.text.toString()
-                        if (name.isNotEmpty()) {
-                            myBoardsViewModel.createBoard(name)
+                        R.string.share
+                    ) { dialog, id ->
+                        val email = binding.shareBoardEmailEdittext.text.toString()
+                        if (email.isNotEmpty()) {
+                            boardViewModel.shareBoard(email)
                         } else {
-                            val text = "Please put a name"
+                            val text = "Please put an email"
                             Toast
                                 .makeText(context, text, Toast.LENGTH_LONG)
                                 .show()
@@ -50,7 +49,7 @@ class CreateBoardDialogFragment : DialogFragment() {
                     .setView(view)
                     .create()
 
-            binding.createNameEdittext.addTextChangedListener {
+            binding.shareBoardEmailEdittext.addTextChangedListener {
                 val alertDialogWhenNameTextChanged = dialog as AlertDialog
                 alertDialogWhenNameTextChanged.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
                     it.toString().isNotEmpty()

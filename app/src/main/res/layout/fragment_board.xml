@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.board.BoardFragment">
+        tools:context=".board.BoardFragment">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/boards_prompt_to_create_cardview"

@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.board
+package me.benhunter.accelerate.board
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -9,8 +9,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import me.benhunter.accelerate.R
 import me.benhunter.accelerate.databinding.FragmentCreateNamedItemDialogBinding
+import me.benhunter.accelerate.model.Category
 
-class CreateCategoryDialogFragment : DialogFragment() {
+class CreateTaskDialogFragment(private val category: Category) : DialogFragment() {
 
     private val boardViewModel: BoardViewModel by activityViewModels()
 
@@ -23,14 +24,14 @@ class CreateCategoryDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(it)
 
             val alertDialog =
-                builder.setMessage(R.string.create_a_category)
+                builder.setMessage(R.string.create_a_task)
 
                     .setPositiveButton(
                         R.string.create
-                    ) { dialog, id ->
+                    ) { dialog, id -> //
                         val name = binding.createNameEdittext.text.toString()
                         if (name.isNotEmpty()) {
-                            boardViewModel.createCategory(name)
+                            boardViewModel.createTask(name, category.firestoreId)
                         } else {
                             val text = "Please put a name"
                             Toast

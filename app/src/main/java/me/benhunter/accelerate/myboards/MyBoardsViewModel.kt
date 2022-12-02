@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.myboards
+package me.benhunter.accelerate.myboards
 
 import android.util.Log
 import androidx.lifecycle.LiveData

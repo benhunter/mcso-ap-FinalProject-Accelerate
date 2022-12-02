@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.board
+package me.benhunter.accelerate.board
 
 import android.os.Bundle
 import android.util.Log
@@ -93,12 +93,17 @@ class BoardFragment : Fragment() {
     }
 
     private fun navToTask(taskId: String, categoryId: String) {
-        val action = BoardFragmentDirections.actionBoardToTask(taskId, categoryId)
+        val action = BoardFragmentDirections.actionBoardToTask(
+            taskId,
+            categoryId
+        )
         findNavController().navigate(action)
     }
 
     private fun navToCategory(categoryId: String) {
-        val action = BoardFragmentDirections.actionBoardToCategory(categoryId)
+        val action = BoardFragmentDirections.actionBoardToCategory(
+            categoryId
+        )
         findNavController().navigate(action)
     }
 }

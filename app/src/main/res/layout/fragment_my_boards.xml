@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingVertical="10dp"
-        tools:context=".ui.myboards.MyBoardsFragment">
+        tools:context=".myboards.MyBoardsFragment">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/my_boards_prompt_to_create_cardview"

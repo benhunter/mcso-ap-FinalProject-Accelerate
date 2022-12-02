@@ -1,4 +1,4 @@
-package me.benhunter.accelerate.ui.category
+package me.benhunter.accelerate.category
 
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import me.benhunter.accelerate.databinding.FragmentCategoryBinding
-import me.benhunter.accelerate.ui.board.BoardViewModel
-import me.benhunter.accelerate.ui.task.TaskViewModel
 
 class CategoryFragment : Fragment() {
     private val TAG = javaClass.simpleName
