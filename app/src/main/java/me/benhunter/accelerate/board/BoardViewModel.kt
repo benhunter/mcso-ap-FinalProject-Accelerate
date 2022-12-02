@@ -113,7 +113,7 @@ class BoardViewModel : ViewModel() {
         val firestoreId = db.collection(taskCollection).document().id
         val position =
             tasks.value?.filter { task: Task -> task.categoryId == categoryId }?.size ?: 0
-        val task = Task(name, firestoreId, categoryId, position)
+        val task = Task(name, firestoreId, categoryId, position, "", "")
 
         db.collection(taskCollection).document(task.firestoreId).set(task).addOnSuccessListener {
             fetchTasks()

@@ -48,10 +48,13 @@ class TaskFragment : Fragment() {
         categoryViewModel.setCategory(args.categoryId)
 
         taskViewModel.observeTask().observe(viewLifecycleOwner) {
-            if (it == null) {
-                binding.taskNameEdittext.setText("")
-            } else {
+//            if (it == null) {
+//                binding.taskNameEdittext.setText("")
+//            } else {
+            if (it != null){
                 binding.taskNameEdittext.setText(it.name)
+                binding.taskDueDateEdittext.setText(it.dueDate)
+                binding.taskDueTimeEdittext.setText(it.dueTime)
             }
         }
 
@@ -62,7 +65,9 @@ class TaskFragment : Fragment() {
             categoryIdNullable?.let { categoryId ->
                 taskViewModel.saveNameAndCategory(
                     binding.taskNameEdittext.text.toString(),
-                    categoryId
+                    categoryId,
+                    binding.taskDueDateEdittext.text.toString(),
+                    binding.taskDueTimeEdittext.text.toString()
                 )
             }
             findNavController().popBackStack()
