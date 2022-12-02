@@ -12,7 +12,8 @@
         app:layout_constraintBottom_toTopOf="@id/task_category_tv"
         app:layout_constraintEnd_toStartOf="@+id/task_name_edittext"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/task_name_edittext"
@@ -36,6 +37,7 @@
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/task_category_spinner"
         android:layout_width="wrap_content"
+        android:minWidth="200dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/task_category_tv"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Due Date"
-        app:layout_constraintBottom_toTopOf="@id/task_delete_button"
+        app:layout_constraintBottom_toTopOf="@id/task_due_time_tv"
         app:layout_constraintEnd_toStartOf="@id/task_due_date_edittext"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/task_category_tv" />
@@ -96,7 +98,7 @@
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Time"
+        android:text="@string/set_time"
         app:layout_constraintBottom_toBottomOf="@id/task_due_time_tv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/task_due_time_edittext"
@@ -111,7 +113,7 @@
         app:layout_constraintBottom_toTopOf="@id/task_save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/task_due_date_tv" />
+        app:layout_constraintTop_toBottomOf="@id/task_due_time_tv" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/task_save_button"

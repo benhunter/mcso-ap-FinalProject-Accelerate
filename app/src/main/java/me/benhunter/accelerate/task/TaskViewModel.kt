@@ -30,7 +30,7 @@ class TaskViewModel : ViewModel() {
         return task
     }
 
-    fun saveNameAndCategory(name: String, categoryId: String, dueDate: String, dueTime: String) {
+    fun saveTask(name: String, categoryId: String, dueDate: String, dueTime: String) {
         task.value?.let { thisTask ->
 
             val isCategoryChanged = thisTask.categoryId != categoryId
@@ -55,6 +55,9 @@ class TaskViewModel : ViewModel() {
             }
 
             val updatedTask = Task(name, thisTask.firestoreId, categoryId, position, dueDate, dueTime)
+
+            if (thisTask == updatedTask) return
+
             db.collection(taskCollection).document(taskId).set(updatedTask)
                 .addOnSuccessListener {
                     task.postValue(updatedTask)

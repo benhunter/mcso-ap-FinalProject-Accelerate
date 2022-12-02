@@ -63,7 +63,7 @@ class TaskFragment : Fragment() {
             val categoryIdNullable =
                 boardViewModel.observeCategories().value?.get(categorySelectedPosition)?.firestoreId
             categoryIdNullable?.let { categoryId ->
-                taskViewModel.saveNameAndCategory(
+                taskViewModel.saveTask(
                     binding.taskNameEdittext.text.toString(),
                     categoryId,
                     binding.taskDueDateEdittext.text.toString(),
