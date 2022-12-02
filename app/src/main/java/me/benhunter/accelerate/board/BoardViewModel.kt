@@ -23,6 +23,28 @@ class BoardViewModel : ViewModel() {
     private val categories = MutableLiveData<List<Category>>()
     private val tasks = MutableLiveData<List<Task>>()
 
+//    init {
+    // Disabled because it interfered with ItemTouchHelper in BoardAdapter
+//        setupTaskSnapshotListener()
+//    }
+
+    fun setupTaskSnapshotListener() {
+        // Listen for updates to Tasks
+        db.collection(taskCollection).addSnapshotListener { value, error ->
+            Log.d(TAG, "snapshotListener taskCollection")
+            if (error != null) {
+                Log.d(TAG, "snapshotListener taskCollection error")
+                return@addSnapshotListener
+            }
+
+            val taskResult = value?.toObjects(Task::class.java)
+            taskResult?.let {
+                Log.d(TAG, "snapshotListener posting tasks")
+                tasks.postValue(taskResult!!)
+            }
+        }
+    }
+
     // Must set a board before interacting with the Categories
     fun setBoard(boardFirestoreId: String) {
         Log.d(TAG, "setBoard get $boardFirestoreId")
@@ -146,34 +168,35 @@ class BoardViewModel : ViewModel() {
     }
 
     fun moveTask(fromPosition: Int, toPosition: Int, categoryId: String) {
+        Log.d(TAG, "moveTask from $fromPosition to $toPosition category $categoryId")
         tasks.value?.let { taskList ->
-//            val taskToUpdate =
-//                taskList.find { it.categoryId == categoryId && it.position == fromPosition }
-//            val updatedTask = Task(
-//                taskToUpdate!!.name,
-//                taskToUpdate.firestoreId,
-//                taskToUpdate.categoryId,
-//                toPosition
-//            )
 
             // Calculate all the new positions in the Category
+            // Get tasks in this category
             val tasksInCategorySorted =
                 taskList.filter { it.categoryId == categoryId }.sortedBy { it.position }
                     .toMutableList()
-            val taskMoved = tasksInCategorySorted.removeAt(fromPosition)
-            tasksInCategorySorted.add(toPosition, taskMoved)
-            tasksInCategorySorted.forEachIndexed { index, task -> task.position = index }
 
-            db.collection(taskCollection).whereEqualTo("categoryId", categoryId).get()
-                .addOnSuccessListener { querySnapshot ->
-                    val batch = db.batch()
-                    querySnapshot.forEach {
-                        val task = it.toObject(Task::class.java)
-                        task.position =
-                            (tasksInCategorySorted.find { taskUpdated -> taskUpdated.firestoreId == task.firestoreId })!!.position
-                        batch.set(it.reference, task)
-                    }
-                    batch.commit()
+            // Remove
+            val taskMoved = tasksInCategorySorted.removeAt(fromPosition)
+
+            // Add
+            tasksInCategorySorted.add(toPosition, taskMoved)
+
+            // Update positions
+            tasksInCategorySorted.forEachIndexed { index, task ->
+                task.position = index
+                Log.d(TAG, "moveTask updated positions $index ${task.name}")
+            }
+
+            // Set in Firestore
+            tasksInCategorySorted
+                .forEach {
+                    Log.d(TAG, "moveTask ${it.position} ${it.name}")
+                    db.collection(taskCollection).document(it.firestoreId).set(it)
+                        .addOnSuccessListener { _ ->
+                            Log.d(TAG, "moveTask success ${it.position} ${it.name}")
+                        }
                 }
         }
     }

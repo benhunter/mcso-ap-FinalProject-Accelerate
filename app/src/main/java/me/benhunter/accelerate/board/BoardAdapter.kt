@@ -109,14 +109,13 @@ class BoardAdapter(
         holder: ViewHolder
     ): ItemTouchHelper {
         val simpleItemTouchCallback =
-            object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, ItemTouchHelper.START)
+            object : SimpleCallback(UP or DOWN or START or END, START)
             {
                 override fun onMove(recyclerView: RecyclerView,
                                     viewHolder: RecyclerView.ViewHolder,
                                     target: RecyclerView.ViewHolder): Boolean {
-                    // TODO
                     Snackbar
-                        .make(holder.itemView, "ItemTouchHelp onMove", Snackbar.LENGTH_LONG)
+                        .make(holder.itemView, "Moved Task", Snackbar.LENGTH_LONG)
                         .setAction("Action", null)
                         .show()
 
@@ -124,7 +123,6 @@ class BoardAdapter(
                     val to = target.adapterPosition
 
                     boardViewModel.moveTask(from, to, category.firestoreId)
-                    // TODO may need adapter.moveItem? should be from observer!
 
                     taskListAdapter.notifyItemMoved(from, to)
 
