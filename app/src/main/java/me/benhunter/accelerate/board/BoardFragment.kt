@@ -1,5 +1,6 @@
 package me.benhunter.accelerate.board
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -79,6 +80,7 @@ class BoardFragment : Fragment() {
         binding.boardSwiperefresh.setOnRefreshListener {
             boardViewModel.fetchBoardCategoriesAndTasks()
             binding.boardSwiperefresh.isRefreshing = false
+            (binding.boardRecyclerView.adapter as BoardAdapter).notifyDataSetChanged()
         }
     }
 

@@ -190,14 +190,14 @@ class BoardViewModel : ViewModel() {
             }
 
             // Set in Firestore
+            val batch = db.batch()
             tasksInCategorySorted
                 .forEach {
-                    Log.d(TAG, "moveTask ${it.position} ${it.name}")
-                    db.collection(taskCollection).document(it.firestoreId).set(it)
-                        .addOnSuccessListener { _ ->
-                            Log.d(TAG, "moveTask success ${it.position} ${it.name}")
-                        }
+                    val doc = db.collection(taskCollection).document(it.firestoreId)
+                    batch.set(doc, it)
                 }
+            batch.commit()
         }
+
     }
 }
