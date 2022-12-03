@@ -42,7 +42,7 @@ class CategoryViewModel : ViewModel() {
     }
 
     fun delete() {
-        val position = category.value?.position ?: 0
+        val currentCategory = category.value ?: return
 
         db.collection(categoriesCollection).document(categoryId).delete()
             .addOnSuccessListener {
@@ -58,11 +58,11 @@ class CategoryViewModel : ViewModel() {
             }
 
         // Update other Categories position
-        db.collection(categoriesCollection).get().addOnSuccessListener { querySnapshot ->
+        db.collection(categoriesCollection).whereEqualTo("boardId", currentCategory.boardId).get().addOnSuccessListener { querySnapshot ->
             val batch = db.batch()
             querySnapshot.forEach {
                 val category = it.toObject(Category::class.java)
-                if (category.position > position) {
+                if (category.position > currentCategory.position) {
                     // decrement and update
                     category.position -= 1
                     batch.set(it.reference, category)
