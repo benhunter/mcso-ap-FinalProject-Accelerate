@@ -12,7 +12,7 @@ import me.benhunter.accelerate.model.Task
 class BoardViewModel : ViewModel() {
     private val TAG = javaClass.simpleName
 
-    private val boardsCollection = "boards" // TODO use same string as MyBoardsViewModel
+    private val boardsCollection = "boards"
     private val categoriesCollection = "categories"
     private val taskCollection = "tasks"
 

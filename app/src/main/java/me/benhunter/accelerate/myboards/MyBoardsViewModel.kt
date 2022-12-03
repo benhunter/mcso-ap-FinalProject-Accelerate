@@ -22,7 +22,6 @@ class MyBoardsViewModel : ViewModel() {
 
     init {
         // Update the boards when user logs in.
-        // TODO could try to consolidate with MainViewModel to have FirestoreAuth in one place
         firebaseAuthLiveData.observeForever {
             Log.d(TAG, "FirestoreAuthLiveData $it")
             if (it != null) {
@@ -72,5 +71,4 @@ class MyBoardsViewModel : ViewModel() {
         Log.d(TAG, "observeMyBoards")
         return myBoards
     }
-
 }

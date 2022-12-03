@@ -24,7 +24,7 @@ class TaskFragment : Fragment() {
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
 
-    private val args: me.benhunter.accelerate.task.TaskFragmentArgs by navArgs()
+    private val args: TaskFragmentArgs by navArgs()
 
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val categoryViewModel: CategoryViewModel by activityViewModels()
@@ -48,9 +48,6 @@ class TaskFragment : Fragment() {
         categoryViewModel.setCategory(args.categoryId)
 
         taskViewModel.observeTask().observe(viewLifecycleOwner) {
-//            if (it == null) {
-//                binding.taskNameEdittext.setText("")
-//            } else {
             if (it != null){
                 binding.taskNameEdittext.setText(it.name)
                 binding.taskDueDateEdittext.setText(it.dueDate)

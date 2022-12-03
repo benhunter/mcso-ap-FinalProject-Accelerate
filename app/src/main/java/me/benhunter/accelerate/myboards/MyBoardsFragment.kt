@@ -34,7 +34,6 @@ class MyBoardsFragment : Fragment() {
         _binding = FragmentMyBoardsBinding.inflate(inflater, container, false)
 
         // Firebase Auth
-        // TODO do before other setup?
         AuthInit(mainViewModel, signInLauncher)
 
         return binding.root

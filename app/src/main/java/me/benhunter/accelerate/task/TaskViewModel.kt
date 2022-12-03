@@ -66,7 +66,7 @@ class TaskViewModel : ViewModel() {
     }
 
     fun delete() {
-        val position = task.value?.position ?: 0
+        val currentTask = task.value ?: return
 
         db.collection(taskCollection).document(taskId).delete()
             .addOnSuccessListener {
@@ -74,12 +74,11 @@ class TaskViewModel : ViewModel() {
             }
 
         // Update position for other tasks
-        // TODO only tasks in same category
-        db.collection(taskCollection).get().addOnSuccessListener { querySnapshot ->
+        db.collection(taskCollection).whereEqualTo("categoryId", currentTask.categoryId).get().addOnSuccessListener { querySnapshot ->
             val batch = db.batch()
             querySnapshot.forEach {
                 val task = it.toObject(Task::class.java)
-                if (task.position > position) {
+                if (task.position > currentTask.position) {
                     // decrement and update
                     task.position -= 1
                     batch.set(it.reference, task)
